@@ -1,17 +1,6 @@
 server:
-  port: 8080
-spring:
-  data:
-    mongodb:
-      database: test
-      port: 27017
-      host: localhost
+  port: 8761
 eureka:
-  instance:
-    hostname: localhost
-    lease-renewal-interval-in-seconds: 10
-    client:
-      fetchRegistry: false
-      registerWithEureka: false
-      serviceUrl:
-        defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  client:
+    registerWithEureka: false
+    fetchRegistry: false

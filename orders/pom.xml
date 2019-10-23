@@ -53,11 +53,6 @@
 			<artifactId>spring-rabbit-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-netflix-eureka-server</artifactId>
-			<version>1.0.0.RELEASE</version>
-		</dependency>
 	</dependencies>
 
 	<build>
