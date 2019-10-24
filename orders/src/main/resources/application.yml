@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8083
 spring:
   application:
     name: order-client
@@ -8,9 +8,19 @@ spring:
       database: test
       port: 27017
       host: localhost
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
+javatechstack:
+  rabbitmq:
+    exchange: javatechstack.direct
+    routingkey: javatechstack.routingkey
+    queue: javatechstack.queue

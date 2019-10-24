@@ -33,4 +33,3 @@ public class WarehouseApplication implements ServiceInstanceRestController {
 				"Test from '%s'!", eurekaClient.getApplication(appName).getName());
 	}
 }
-

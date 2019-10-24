@@ -1,6 +1,7 @@
 package com.whs.orders;
 
 import com.netflix.discovery.EurekaClient;
+import com.whs.orders.producer.Producer;
 import com.whs.orders.serviceController.ServiceInstanceRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,9 @@ public class OrdersApplication implements ServiceInstanceRestController {
 	@Lazy
 	private EurekaClient eurekaClient;
 
+	@Autowired
+	Producer producer;
+
 	@Value("${spring.application.name}")
 	private String appName;
 
@@ -26,8 +30,14 @@ public class OrdersApplication implements ServiceInstanceRestController {
 		SpringApplication.run(OrdersApplication.class, args);
 	}
 
+	/**
+	 * When the endpoint define in the interface ServiceInstanceRestController is called,
+	 * this will send a message to the rabbitMQ (producer.produceMsg("order");)
+	 * @return
+	 */
 	@Override
 	public String order() {
+		producer.produceMsg("order");
 		return String.format(
 				"Test from '%s'!", eurekaClient.getApplication(appName).getName());
 	}
