@@ -21,6 +21,4 @@ eureka:
     preferIpAddress: true
 javatechstack:
   rabbitmq:
-    exchange: javatechstack.direct
-    routingkey: javatechstack.routingkey
-    queue: javatechstack.queue
+    queue: serviceregistry.queue

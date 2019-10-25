@@ -12,4 +12,6 @@ spring:
     password: guest
 javatechstack:
   rabbitmq:
-    queue: javatechstack.queue
+    exchange: serviceregistry.direct
+    routingkey: serviceregistry.routingkey
+    queue: serviceregistry.queue

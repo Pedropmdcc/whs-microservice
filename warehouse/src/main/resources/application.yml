@@ -8,9 +8,17 @@ spring:
       database: test
       port: 27017
       host: localhost
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
+javatechstack:
+  rabbitmq:
+    queue: serviceregistry.queue
