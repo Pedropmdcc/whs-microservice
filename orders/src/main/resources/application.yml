@@ -1,5 +1,16 @@
 server:
-  port: 8083
+  port: 8086
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+javatechstack:
+  rabbitmq:
+    queue: serviceregistry.queue
+
 spring:
   application:
     name: order-client
@@ -13,12 +24,4 @@ spring:
     port: 5672
     username: guest
     password: guest
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-  instance:
-    preferIpAddress: true
-javatechstack:
-  rabbitmq:
-    queue: serviceregistry.queue
+
