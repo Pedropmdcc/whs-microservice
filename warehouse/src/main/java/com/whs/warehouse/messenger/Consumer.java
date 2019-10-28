@@ -1,4 +1,4 @@
-package com.whs.warehouse.consumer;
+package com.whs.warehouse.messenger;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;

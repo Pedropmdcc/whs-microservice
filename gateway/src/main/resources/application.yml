@@ -1,6 +1,12 @@
 spring:
   application:
     name: gateway
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
 server:
   port: 8080
   servlet:
@@ -17,3 +23,7 @@ eureka:
 
 zuul:
   sensitive-headers: Cookie
+
+javatechstack:
+  rabbitmq:
+    queue: serviceregistry.queue

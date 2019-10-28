@@ -1,4 +1,4 @@
-package com.whs.warehouse.infrastructure.material.model;
+package com.whs.warehouse.infrastructure.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
