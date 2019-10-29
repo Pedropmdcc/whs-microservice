@@ -18,6 +18,17 @@
           </option>
           <option name="username" value="root" />
         </ServerConfiguration>
+        <ServerConfiguration>
+          <option name="label" value="pacientZero" />
+          <option name="serverUrls">
+            <list>
+              <option value="localhost:27017" />
+            </list>
+          </option>
+          <option name="sshTunnelingConfiguration">
+            <SshTunnelingConfiguration />
+          </option>
+        </ServerConfiguration>
       </list>
     </option>
   </component>
