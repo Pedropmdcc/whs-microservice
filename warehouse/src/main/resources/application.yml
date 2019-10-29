@@ -22,6 +22,6 @@ spring:
     username: guest
     password: guest
 
-javatechstack:
+orderqueue:
   rabbitmq:
-    queue: serviceregistry.queue
+    queue: orders.queue
