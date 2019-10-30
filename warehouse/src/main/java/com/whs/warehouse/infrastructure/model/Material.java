@@ -15,5 +15,10 @@ public class Material {
     private String id;
     private String name;
     private String description;
-
+    private Double weight;
+    private String container; // enum
+    private Boolean stackable;
+    private String type; // enum
+    private Integer minimumStock;
+    private String idSupplier; //UUID
 }
