@@ -1,6 +1,8 @@
 package com.whs.customer.api.dto.request;
 
 import com.whs.customer.domain.data.TransportZone;
+import com.whs.customer.infrastructure.model.Customer;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +16,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 public class CustomerRequest {
     @NotBlank(message = "No name provided")
@@ -24,4 +27,5 @@ public class CustomerRequest {
     private TransportZone transportZone;
     @NotNull(message = "No VAT provided")
     private String vat;
+
 }

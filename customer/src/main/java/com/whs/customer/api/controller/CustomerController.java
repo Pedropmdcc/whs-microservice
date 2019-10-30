@@ -1,11 +1,10 @@
 package com.whs.customer.api.controller;
 
+import com.whs.customer.api.dto.request.CustomerRequest;
+import com.whs.customer.api.dto.response.CustomerResponse;
 import com.whs.customer.infrastructure.model.Customer;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
@@ -18,6 +17,13 @@ public interface CustomerController {
      * @return  Response with the final result of the operation.
      */
     @PostMapping("/create")
-    ResponseEntity<Void> create(@RequestBody Customer customer, UriComponentsBuilder builder);
+    ResponseEntity<CustomerResponse>  create(@RequestBody CustomerRequest customer, UriComponentsBuilder builder);
 
+    /**
+     * Search for an existing User.
+     * @param username User name.
+     * @return Response with result.
+     */
+    @GetMapping("/search/{username}")
+    ResponseEntity findByName(@PathVariable("username") String username);
 }

@@ -3,8 +3,10 @@ package com.whs.customer.api.impl;
 import com.netflix.discovery.EurekaClient;
 import com.whs.customer.api.controller.CustomerController;
 import com.whs.customer.api.dto.request.CustomerRequest;
+import com.whs.customer.api.dto.response.CustomerResponse;
 import com.whs.customer.domain.service.CustomerService;
 import com.whs.customer.infrastructure.model.Customer;
+import com.whs.customer.infrastructure.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,13 +36,27 @@ public class CustomerImpl implements CustomerController {
     private String appName;
 
     private final CustomerService customerService;
+    private final CustomerRepository customerRepository;
+
 
 
     @Override
-    public ResponseEntity<Void> create(Customer customer, UriComponentsBuilder builder) {
+    public ResponseEntity<CustomerResponse> create(CustomerRequest customer, UriComponentsBuilder builder) {
         LOGGER.info("Creating new customer" + customer.getName() + "in the database");
         customerService.create(customer);
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(CustomerResponse
+                .builder()
+                .address(customer.getAddress())
+                .name(customer.getName())
+                .transportZone(customer.getTransportZone())
+                .vat(customer.getVat()).build() , HttpStatus.CREATED);
+
+    }
+
+    @Override
+    public ResponseEntity<Void> findByName(String username){
+        LOGGER.info("Searching for user with username:" + username);
+        customerService.findByName(username);
+        return ResponseEntity.status(201).build();
     }
 }

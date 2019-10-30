@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class Customer {
     @Id
@@ -21,4 +20,11 @@ public class Customer {
     private TransportZone transportZone;
     @Indexed(unique=true)
     private String vat;
+
+    public Customer(String name,String address, TransportZone transportZone, String vat){
+        this.name = name;
+        this.address = address;
+        this.transportZone = transportZone;
+        this.vat = vat;
+    }
 }

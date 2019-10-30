@@ -1,5 +1,6 @@
 package com.whs.customer.domain.service;
 
+import com.whs.customer.api.dto.request.CustomerRequest;
 import com.whs.customer.infrastructure.model.Customer;
 import com.whs.customer.infrastructure.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
     Customer Service.
@@ -23,8 +26,25 @@ public class CustomerService {
     /**
      *  Create new Customer in the database.
      * @param customer
+     * @return
      */
-    public void create(Customer customer) {
-        customerRepository.save(customer);
+    public Customer create(CustomerRequest customer) {
+        Customer newCustomer = Customer.builder().
+                address(customer.getAddress())
+                .name(customer.getName())
+                .transportZone(customer.getTransportZone())
+                .vat(customer.getVat())
+                .build();
+
+        return customerRepository.save(newCustomer);
+    }
+
+    /**
+     * Searches for User in the database.
+     * @param username
+     * @return Object Custumer.
+     */
+    public Optional<Customer> findByName(String username){
+        return customerRepository.findByName(username);
     }
 }
