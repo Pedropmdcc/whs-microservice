@@ -17,7 +17,7 @@ public interface CustomerController {
      * @return  Response with the final result of the operation.
      */
     @PostMapping("/create")
-    ResponseEntity<CustomerResponse>  create(@RequestBody CustomerRequest customer, UriComponentsBuilder builder);
+    ResponseEntity<CustomerResponse> create(@RequestBody CustomerRequest customer, UriComponentsBuilder builder);
 
     /**
      * Search for an existing User.
@@ -25,5 +25,5 @@ public interface CustomerController {
      * @return Response with result.
      */
     @GetMapping("/search/{username}")
-    ResponseEntity findByName(@PathVariable("username") String username);
+    ResponseEntity<CustomerResponse> findByName(@PathVariable("username") String username);
 }

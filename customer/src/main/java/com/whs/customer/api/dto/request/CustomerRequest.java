@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
 public class CustomerRequest {
     @NotBlank(message = "No name provided")
     private String name;
@@ -28,4 +27,12 @@ public class CustomerRequest {
     @NotNull(message = "No VAT provided")
     private String vat;
 
+    public Customer convertToModel(){
+        return Customer.builder()
+                .address(this.getAddress())
+                .name(this.getName())
+                .transportZone(this.getTransportZone())
+                .vat(this.getVat())
+                .build();
+    }
 }

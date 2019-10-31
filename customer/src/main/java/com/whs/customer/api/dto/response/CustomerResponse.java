@@ -12,13 +12,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class CustomerResponse {
-
     private String name;
     private String address;
     private TransportZone transportZone;
     private String vat;
 
-    public static CustomerResponse convertToDTO(Customer costumer){
-        return new CustomerResponse(costumer.getName(),costumer.getAddress(),costumer.getTransportZone(),costumer.getVat());
+    public static CustomerResponse convertToResponse(Customer customer){
+        return CustomerResponse.builder()
+                .address(customer.getAddress())
+                .name(customer.getName())
+                .transportZone(customer.getTransportZone())
+                .vat(customer.getVat())
+                .build();
     }
+
 }
