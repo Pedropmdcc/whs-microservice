@@ -1,6 +1,7 @@
 package com.whs.warehouse.domain.service;
 
-import com.whs.warehouse.infrastructure.model.Material;
+import com.whs.warehouse.api.dto.MaterialDto;
+import com.whs.warehouse.api.dto.MaterialResponseDto;
 import com.whs.warehouse.infrastructure.repository.MaterialRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,22 +18,23 @@ public class MaterialService {
 
     private final MaterialRepository materialRepository;
 
-    public List<Material> list() {
+    public List<com.whs.warehouse.infrastructure.model.Material> list() {
         log.info("Listing all courses");
         return materialRepository.findAll();
     }
 
-    public void add(Material material) {
-        materialRepository.save(material);
+    public void add(MaterialDto materialDto) {
+        materialRepository.save(materialDto.dtoToMaterial());
     }
 
-    public List<Material> getAll() {
-        List<Material> materialList = new ArrayList<>();
-        materialRepository.findAll().forEach(e -> materialList.add(e));
-        return materialList;
+    public List<MaterialResponseDto> getAll() {
+
+        List<MaterialResponseDto> materialResponseDtoList = new ArrayList<>();
+        materialRepository.findAll().forEach(e -> materialResponseDtoList.add(MaterialResponseDto.materialToDto(e)));
+        return materialResponseDtoList;
     }
 
-    public Material getById(String id) {
-        return materialRepository.findById(id).get();
+    public MaterialResponseDto getById(String id) {
+        return MaterialResponseDto.materialToDto(materialRepository.findById(id).get());
     }
 }

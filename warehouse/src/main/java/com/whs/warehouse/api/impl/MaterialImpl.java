@@ -2,8 +2,9 @@ package com.whs.warehouse.api.impl;
 
 import com.netflix.discovery.EurekaClient;
 import com.whs.warehouse.api.controller.MaterialController;
+import com.whs.warehouse.api.dto.MaterialDto;
+import com.whs.warehouse.api.dto.MaterialResponseDto;
 import com.whs.warehouse.domain.service.MaterialService;
-import com.whs.warehouse.infrastructure.model.Material;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,23 +34,23 @@ public class MaterialImpl implements MaterialController {
     private final MaterialService materialService;
 
     @Override
-    public ResponseEntity<Void> add(@RequestBody Material material, UriComponentsBuilder builder) {
-        materialService.add(material);
+    public ResponseEntity<Void> add(@RequestBody MaterialDto materialDto, UriComponentsBuilder builder) {
+        materialService.add(materialDto);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/newmaterial/{id}").buildAndExpand(material.getId()).toUri());
+        headers.setLocation(builder.path("/newmaterial/{id}").buildAndExpand(materialDto.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<List<Material>> getAll() {
-        List<Material> materialList = materialService.getAll();
+    public ResponseEntity<List<MaterialResponseDto>> getAll() {
+        List<MaterialResponseDto> materialList = materialService.getAll();
         return new ResponseEntity<>(materialList, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Material> getById(String id) {
-        Material material = materialService.getById(id);
-        return new ResponseEntity<>(material, HttpStatus.OK);
+    public ResponseEntity<MaterialResponseDto> getById(String id) {
+        MaterialResponseDto materialResponseDto = materialService.getById(id);
+        return new ResponseEntity<>(materialResponseDto, HttpStatus.OK);
     }
 }
