@@ -2,7 +2,6 @@ package com.whs.customer.api.controller;
 
 import com.whs.customer.api.dto.request.CustomerRequest;
 import com.whs.customer.api.dto.response.CustomerResponse;
-import com.whs.customer.infrastructure.model.Customer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
