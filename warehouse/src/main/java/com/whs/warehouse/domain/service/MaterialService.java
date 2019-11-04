@@ -1,11 +1,15 @@
 package com.whs.warehouse.domain.service;
 
-import com.whs.warehouse.api.dto.MaterialDto;
-import com.whs.warehouse.api.dto.MaterialResponseDto;
+import com.whs.warehouse.api.dto.errors.NotFoundException;
+import com.whs.warehouse.api.dto.request.MaterialRequest;
+import com.whs.warehouse.api.dto.response.MaterialResponse;
+import com.whs.warehouse.infrastructure.model.Material;
 import com.whs.warehouse.infrastructure.repository.MaterialRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,18 +27,31 @@ public class MaterialService {
         return materialRepository.findAll();
     }
 
-    public void add(MaterialDto materialDto) {
-        materialRepository.save(materialDto.dtoToMaterial());
+    public void add(MaterialRequest materialRequest) {
+        materialRepository.save(materialRequest.dtoToMaterial());
     }
 
-    public List<MaterialResponseDto> getAll() {
+    public List<MaterialResponse> getAll() {
 
-        List<MaterialResponseDto> materialResponseDtoList = new ArrayList<>();
-        materialRepository.findAll().forEach(e -> materialResponseDtoList.add(MaterialResponseDto.materialToDto(e)));
-        return materialResponseDtoList;
+        List<MaterialResponse> materialResponseList = new ArrayList<>();
+        materialRepository.findAll().forEach(e -> materialResponseList.add(MaterialResponse.materialToDto(e)));
+        return materialResponseList;
     }
 
-    public MaterialResponseDto getById(String id) {
-        return MaterialResponseDto.materialToDto(materialRepository.findById(id).get());
+    public MaterialResponse getById(String id) {
+        Material material = materialRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return MaterialResponse.materialToDto(material);
+        //return MaterialResponse.materialToDto(materialRepository.findById(id).get());
+    }
+
+    public void delete(String id) {
+        Material material = materialRepository.findById(id).get();
+        materialRepository.delete(material);
+    }
+
+    public void update(MaterialRequest materialRequest, String id) {
+        Material material = materialRequest.dtoToMaterial();
+        material.setId(id);
+        materialRepository.save(material);
     }
 }

@@ -1,22 +1,23 @@
-package com.whs.warehouse.api.dto;
+package com.whs.warehouse.api.dto.request;
 
+import com.whs.warehouse.domain.data.ContainerStatus;
+import com.whs.warehouse.domain.data.FlagStatus;
 import com.whs.warehouse.infrastructure.model.Material;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MaterialDto {
+public class MaterialRequest {
     private String id;
     private String name;
     private String description;
     private Double weight;
-    private String container; // enum
+    private ContainerStatus container; // enum
     private Boolean stackable;
-    private String type; // enum
+    private FlagStatus flag; // enum
     private Integer minimumStock;
     private String idSupplier; //UUID
 
@@ -28,7 +29,7 @@ public class MaterialDto {
                 .weight(this.weight)
                 .container(this.container)
                 .stackable(this.stackable)
-                .type(this.type)
+                .flag(this.flag)
                 .minimumStock(this.minimumStock)
                 .idSupplier(this.idSupplier)
                 .build();

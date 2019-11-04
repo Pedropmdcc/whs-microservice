@@ -1,5 +1,7 @@
 package com.whs.warehouse.infrastructure.model;
 
+import com.whs.warehouse.domain.data.ContainerStatus;
+import com.whs.warehouse.domain.data.FlagStatus;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,9 +18,9 @@ public class Material {
     private String name;
     private String description;
     private Double weight;
-    private String container; // enum
+    private ContainerStatus container;
     private Boolean stackable;
-    private String type; // enum
+    private FlagStatus flag;
     private Integer minimumStock;
     private String idSupplier; //UUID
 }

@@ -2,8 +2,8 @@ package com.whs.warehouse.api.impl;
 
 import com.netflix.discovery.EurekaClient;
 import com.whs.warehouse.api.controller.MaterialController;
-import com.whs.warehouse.api.dto.MaterialDto;
-import com.whs.warehouse.api.dto.MaterialResponseDto;
+import com.whs.warehouse.api.dto.request.MaterialRequest;
+import com.whs.warehouse.api.dto.response.MaterialResponse;
 import com.whs.warehouse.domain.service.MaterialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,23 +34,38 @@ public class MaterialImpl implements MaterialController {
     private final MaterialService materialService;
 
     @Override
-    public ResponseEntity<Void> add(@RequestBody MaterialDto materialDto, UriComponentsBuilder builder) {
-        materialService.add(materialDto);
+    public ResponseEntity<Void> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder) {
+        materialService.add(materialRequest);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/newmaterial/{id}").buildAndExpand(materialDto.getId()).toUri());
+        headers.setLocation(builder.path("/newmaterial/{id}").buildAndExpand(materialRequest.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<List<MaterialResponseDto>> getAll() {
-        List<MaterialResponseDto> materialList = materialService.getAll();
+    public ResponseEntity<List<MaterialResponse>> getAll() {
+        List<MaterialResponse> materialList = materialService.getAll();
         return new ResponseEntity<>(materialList, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<MaterialResponseDto> getById(String id) {
-        MaterialResponseDto materialResponseDto = materialService.getById(id);
-        return new ResponseEntity<>(materialResponseDto, HttpStatus.OK);
+    public ResponseEntity<Object> getById(String id) {
+            MaterialResponse materialResponse = materialService.getById(id);
+            return new ResponseEntity<>(materialResponse, HttpStatus.ACCEPTED);
+
+
+    }
+
+
+    @Override
+    public ResponseEntity<Void> delete(String id) {
+        materialService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
+    public ResponseEntity<Void> update(MaterialRequest materialRequest, String id) {
+        materialService.update(materialRequest, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
