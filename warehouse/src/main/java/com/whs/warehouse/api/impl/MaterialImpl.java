@@ -34,7 +34,7 @@ public class MaterialImpl implements MaterialController {
     private final MaterialService materialService;
 
     @Override
-    public ResponseEntity<Void> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder) {
+    public ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder) {
         materialService.add(materialRequest);
 
         HttpHeaders headers = new HttpHeaders();
@@ -61,7 +61,7 @@ public class MaterialImpl implements MaterialController {
     }
 
     @Override
-    public ResponseEntity<Void> update(MaterialRequest materialRequest, String id) {
+    public ResponseEntity<MaterialResponse> update(MaterialRequest materialRequest, String id) {
         materialService.update(materialRequest, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -11,10 +11,10 @@ import java.util.List;
 @RestController
 public interface MaterialController {
 
-    @PostMapping("/newmaterial")
-    ResponseEntity<Void> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder);
+    @PostMapping("newmaterial")
+    ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder);
 
-    @GetMapping("/material")
+    @GetMapping("material")
     ResponseEntity<List<MaterialResponse>> getAll();
 
     @GetMapping("material/{id}")
@@ -24,5 +24,5 @@ public interface MaterialController {
     ResponseEntity<Void> delete(@PathVariable("id") String id);
 
     @PutMapping("updatematerial/{id}")
-    ResponseEntity<Void> update(@RequestBody MaterialRequest materialRequest, @PathVariable("id") String id);
+    ResponseEntity<MaterialResponse> update(@RequestBody MaterialRequest materialRequest, @PathVariable("id") String id);
 }

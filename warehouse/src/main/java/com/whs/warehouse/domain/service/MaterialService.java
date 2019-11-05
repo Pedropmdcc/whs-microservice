@@ -27,9 +27,9 @@ public class MaterialService {
         return materialRepository.findAll();
     }
 
-    public void add(MaterialRequest materialRequest) {
+    public MaterialResponse add(MaterialRequest materialRequest) {
         try {
-            materialRepository.insert(materialRequest.requestToMaterial());
+            return MaterialResponse.materialToResponse(materialRepository.insert(materialRequest.requestToMaterial()));
         } catch (Exception ex) {
             throw new DuplicateRequestException(ex.getMessage());
         }
@@ -51,12 +51,10 @@ public class MaterialService {
         materialRepository.delete(material);
     }
 
-    public void update(MaterialRequest materialRequest, String id) {
+    public MaterialResponse update(MaterialRequest materialRequest, String id) {
         materialRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
         Material material = materialRequest.requestToMaterial();
         material.setId(id);
-        materialRepository.save(material);
-
-
+        return MaterialResponse.materialToResponse(materialRepository.save(material));
     }
 }
