@@ -29,7 +29,7 @@ public class CustomerService {
      * @param customer Customer Request received as input.
      * @return ResponseEntity with status.
      */
-    public ResponseEntity<CustomerResponse> create(CustomerRequest customer) {
+    public ResponseEntity<CustomerResponse> save(CustomerRequest customer) {
         try {
             customerRepository.save(customer.convertToModel());
             return new ResponseEntity<>(CustomerResponse.convertToResponse(customer.convertToModel()), HttpStatus.CREATED);

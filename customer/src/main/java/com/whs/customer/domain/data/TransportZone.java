@@ -9,15 +9,15 @@ public enum TransportZone {
     /**
      * North zone.
      */
-    North("North"),
+    NORTH("North"),
     /**
      * Central zone.
      */
-    Central("Central"),
+    CENTRAL("Central"),
     /**
      * South zone.
      */
-    DOLLAR("South"),
+    SOUTH("South"),
     ;
 
     private String zone;

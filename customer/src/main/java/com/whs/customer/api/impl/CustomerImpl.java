@@ -33,9 +33,9 @@ public class CustomerImpl implements CustomerController {
     private final CustomerService customerService;
 
     @Override
-    public ResponseEntity<CustomerResponse> create(CustomerRequest customer, UriComponentsBuilder builder) {
+    public ResponseEntity<CustomerResponse> save(CustomerRequest customer, UriComponentsBuilder builder) {
         LOGGER.info("Creating new customer: " + customer.getName() + " in the database");
-        return customerService.create(customer);
+        return customerService.save(customer);
     }
 
     @Override

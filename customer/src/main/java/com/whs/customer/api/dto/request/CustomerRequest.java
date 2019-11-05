@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Builder
+
 public class CustomerRequest {
     @NotBlank(message = "No name provided")
     private String name;
