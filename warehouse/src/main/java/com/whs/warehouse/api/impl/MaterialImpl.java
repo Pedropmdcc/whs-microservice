@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @SpringBootApplication
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -43,9 +49,18 @@ public class MaterialImpl implements MaterialController {
     }
 
     @Override
-    public ResponseEntity<List<MaterialResponse>> getAll() {
+    public Resources<MaterialResponse> getAll() {
         List<MaterialResponse> materialList = materialService.getAll();
-        return new ResponseEntity<>(materialList, HttpStatus.OK);
+
+        for(final MaterialResponse materialResponse : materialList) {
+            String materialResponseId = materialResponse.getResponseId();
+            Link selfLink = linkTo(methodOn(MaterialController.class).getById(materialResponseId)).withSelfRel();
+            materialResponse.add(selfLink);
+        }
+
+        Link link = linkTo(MaterialController.class).withSelfRel();
+        Resources<MaterialResponse> result = new Resources<>(materialList, link);
+        return result;
     }
 
     @Override

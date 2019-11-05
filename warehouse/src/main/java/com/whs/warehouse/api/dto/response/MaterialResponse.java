@@ -1,16 +1,19 @@
 package com.whs.warehouse.api.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.whs.warehouse.domain.data.ContainerStatus;
 import com.whs.warehouse.domain.data.FlagStatus;
 import com.whs.warehouse.domain.model.Material;
 import lombok.*;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.ResourceSupport;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MaterialResponse {
+public class MaterialResponse extends ResourceSupport {
 
     private String id;
     private String name;
@@ -34,5 +37,15 @@ public class MaterialResponse {
                 .minimumStock(material.getMinimumStock())
                 .idSupplier(material.getIdSupplier())
                 .build();
+    }
+
+    @JsonProperty("id")
+    public String getResponseId() {
+        return id;
+    }
+
+    @Override
+    public Link getId() {
+        return Link.valueOf(id);
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Material {
     @Id
     private String id;
+    @Indexed(unique = true)
     private String name;
     private String description;
     private Double weight;
@@ -24,4 +25,8 @@ public class Material {
     private FlagStatus flag;
     private Integer minimumStock;
     private String idSupplier; //UUID
+
+    private String getResponseId() {
+        return id;
+    }
 }

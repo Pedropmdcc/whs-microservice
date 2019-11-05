@@ -2,6 +2,7 @@ package com.whs.warehouse.api.controller;
 
 import com.whs.warehouse.api.dto.request.MaterialRequest;
 import com.whs.warehouse.api.dto.response.MaterialResponse;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,7 +16,7 @@ public interface MaterialController {
     ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder);
 
     @GetMapping("material")
-    ResponseEntity<List<MaterialResponse>> getAll();
+    Resources<MaterialResponse> getAll();
 
     @GetMapping("material/{id}")
     ResponseEntity<MaterialResponse> getById(@PathVariable("id") String id);
