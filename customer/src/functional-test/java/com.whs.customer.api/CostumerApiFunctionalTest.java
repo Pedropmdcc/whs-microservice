@@ -1,5 +1,4 @@
 package com.whs.customer.api;
-import com.whs.customer.infrastructure.model.Component;
 import com.whs.customer.infrastructure.model.Customer;
 
 import org.jboss.arquillian.container.test.api.Deployment;
