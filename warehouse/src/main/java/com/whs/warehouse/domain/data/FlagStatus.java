@@ -1,9 +1,9 @@
 package com.whs.warehouse.domain.data;
 
 public enum FlagStatus {
-    HAZARDOUS("hazardous"),
-    FLAMMABLE("flammable"),
-    POISONOUS("poisonous");
+    hazardous("hazardous"),
+    flammable("flammable"),
+    poisonous("poisonous");
 
     private final String value;
 

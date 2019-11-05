@@ -1,6 +1,6 @@
 package com.whs.warehouse.infrastructure.repository;
 
-import com.whs.warehouse.infrastructure.model.Material;
+import com.whs.warehouse.domain.model.Material;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

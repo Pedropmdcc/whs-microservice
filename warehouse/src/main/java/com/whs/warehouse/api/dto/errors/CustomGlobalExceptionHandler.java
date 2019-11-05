@@ -11,20 +11,26 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseBody
-    public ResponseEntity<Object> customHandleNotFound(Exception ex, WebRequest request) {
+    public ResponseEntity<ErrorResponse> customHandleNotFound(Exception ex, WebRequest request) {
         ErrorResponse error = new ErrorResponse();
-        error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        error.setStatus(HttpStatus.NO_CONTENT.value());
         error.setMessage(ex.getMessage());
-        return new ResponseEntity<Object>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.NO_CONTENT);
     }
-
 
     @ExceptionHandler(DuplicateRequestException.class)
     public ResponseEntity<ErrorResponse> customHandleDuplicated(Exception ex, WebRequest request) {
         ErrorResponse error = new ErrorResponse();
-        error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        error.setMessage(ex.getLocalizedMessage());
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        error.setStatus(HttpStatus.CONFLICT.value());
+        error.setMessage(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(DeleteBadRequestException.class)
+    public ResponseEntity<ErrorResponse> customHandleDeleteBadRequest(Exception ex, WebRequest request) {
+        ErrorResponse error = new ErrorResponse();
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setMessage(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

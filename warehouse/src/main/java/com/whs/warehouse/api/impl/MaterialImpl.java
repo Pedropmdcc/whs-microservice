@@ -49,13 +49,10 @@ public class MaterialImpl implements MaterialController {
     }
 
     @Override
-    public ResponseEntity<Object> getById(String id) {
-            MaterialResponse materialResponse = materialService.getById(id);
-            return new ResponseEntity<>(materialResponse, HttpStatus.ACCEPTED);
-
-
+    public ResponseEntity<MaterialResponse> getById(String id) {
+        MaterialResponse materialResponse = materialService.getById(id);
+        return new ResponseEntity<>(materialResponse, HttpStatus.ACCEPTED);
     }
-
 
     @Override
     public ResponseEntity<Void> delete(String id) {

@@ -1,4 +1,4 @@
-package com.whs.warehouse.infrastructure.model;
+package com.whs.warehouse.domain.model;
 
 import com.whs.warehouse.domain.data.ContainerStatus;
 import com.whs.warehouse.domain.data.FlagStatus;

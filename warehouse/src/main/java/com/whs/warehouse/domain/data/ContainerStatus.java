@@ -1,9 +1,9 @@
 package com.whs.warehouse.domain.data;
 
 public enum ContainerStatus {
-    BAG("bag"),
-    DRUM("drum"),
-    BOX("box");
+    bag("bag"),
+    drum("drum"),
+    box("box");
 
     private final String value;
 

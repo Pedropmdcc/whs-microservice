@@ -2,6 +2,7 @@ package com.whs.warehouse.api.dto.response;
 
 import com.whs.warehouse.domain.data.ContainerStatus;
 import com.whs.warehouse.domain.data.FlagStatus;
+import com.whs.warehouse.domain.model.Material;
 import lombok.*;
 
 @Getter
@@ -21,7 +22,7 @@ public class MaterialResponse {
     private Integer minimumStock;
     private String idSupplier; //UUID
 
-    public static MaterialResponse materialToDto(com.whs.warehouse.infrastructure.model.Material material) {
+    public static MaterialResponse materialToResponse(Material material) {
         return MaterialResponse.builder()
                 .id(material.getId())
                 .name(material.getName())
