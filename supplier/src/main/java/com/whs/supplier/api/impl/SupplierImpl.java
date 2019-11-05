@@ -2,7 +2,8 @@ package com.whs.supplier.api.impl;
 
 import com.netflix.discovery.EurekaClient;
 import com.whs.supplier.api.controller.SupplierController;
-import com.whs.supplier.api.dto.SupplierDto;
+import com.whs.supplier.api.dto.request.SupplierRequest;
+import com.whs.supplier.api.dto.response.SupplierResponse;
 import com.whs.supplier.infrastructure.model.Supplier;
 import com.whs.supplier.service.SupplierService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class SupplierImpl implements SupplierController {
     }
 
     @Override
-    public ResponseEntity<Void> saveSupplier(SupplierDto dto) {
+    public ResponseEntity<Void> saveSupplier(SupplierRequest dto) {
         supplierService.saveSupplier(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -54,8 +55,13 @@ public class SupplierImpl implements SupplierController {
     }
 
     @Override
-    public ResponseEntity<Void> updateSupplier(SupplierDto dto, String id){
+    public ResponseEntity<Void> updateSupplier(SupplierRequest dto, String id){
         supplierService.updateSupplier(dto, id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<SupplierResponse> findSupplier(String id){
+        return new ResponseEntity<>(supplierService.findSupplier(id), HttpStatus.OK);
     }
 }

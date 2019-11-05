@@ -1,6 +1,6 @@
 package com.whs.supplier.api.impl;
 
-import com.whs.supplier.api.dto.SupplierDto;
+import com.whs.supplier.api.dto.request.SupplierRequest;
 import com.whs.supplier.infrastructure.model.Supplier;
 import com.whs.supplier.service.SupplierService;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +43,7 @@ class SupplierImplTest {
     @Test
     void testSaveSupplier() {
         // Setup
-        final SupplierDto dto = new SupplierDto("id", "name", "address", 0);
+        final SupplierRequest dto = new SupplierRequest("id", "name", "address", 0);
         final ResponseEntity<Void> expectedResult = new ResponseEntity<>(HttpStatus.CREATED);
 
         // Run the test
@@ -81,7 +81,7 @@ class SupplierImplTest {
     @Test
     void testUpdateSupplier() {
         // Setup
-        final SupplierDto dto = new SupplierDto("id", "name", "address", 0);
+        final SupplierRequest dto = new SupplierRequest("id", "name", "address", 0);
         final String id = "id";
         final ResponseEntity<Void> expectedResult = new ResponseEntity<>(HttpStatus.OK);
 

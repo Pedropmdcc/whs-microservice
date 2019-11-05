@@ -1,4 +1,4 @@
-package com.whs.supplier.api.dto;
+package com.whs.supplier.api.dto.request;
 
 import com.whs.supplier.infrastructure.model.Supplier;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SupplierDto {
+public class SupplierRequest {
 
     private String id;
     private String name;

@@ -1,18 +1,19 @@
-package com.whs.supplier.api.dto;
+package com.whs.supplier.api.dto.request;
 
+import com.whs.supplier.api.dto.request.SupplierRequest;
 import com.whs.supplier.infrastructure.model.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SupplierDtoTest {
+class SupplierRequestTest {
 
-    private SupplierDto supplierDtoUnderTest;
+    private SupplierRequest supplierRequestUnderTest;
 
     @BeforeEach
     void setUp() {
-        supplierDtoUnderTest = new SupplierDto("id", "name", "address", 0);
+        supplierRequestUnderTest = new SupplierRequest("id", "name", "address", 0);
     }
 
     @Test
@@ -21,7 +22,7 @@ class SupplierDtoTest {
         final Supplier expectedResult = new Supplier("id", "name", "address", 0);
 
         // Run the test
-        final Supplier result = supplierDtoUnderTest.dtoToSupplier();
+        final Supplier result = supplierRequestUnderTest.dtoToSupplier();
 
         // Verify the results
         assertEquals(expectedResult.getId(), result.getId());
@@ -36,10 +37,10 @@ class SupplierDtoTest {
         final String id = "id";
 
         // Run the test
-        supplierDtoUnderTest.setId(id);
+        supplierRequestUnderTest.setId(id);
 
         // Verify the results
-        assertEquals(supplierDtoUnderTest.getId(), id);
+        assertEquals(supplierRequestUnderTest.getId(), id);
     }
 
     @Test
@@ -48,10 +49,10 @@ class SupplierDtoTest {
         final String name = "name";
 
         // Run the test
-        supplierDtoUnderTest.setName(name);
+        supplierRequestUnderTest.setName(name);
 
         // Verify the results
-        assertEquals(supplierDtoUnderTest.getName(), name);
+        assertEquals(supplierRequestUnderTest.getName(), name);
 
     }
 
@@ -61,10 +62,10 @@ class SupplierDtoTest {
         final String address = "address";
 
         // Run the test
-        supplierDtoUnderTest.setAddress(address);
+        supplierRequestUnderTest.setAddress(address);
 
         // Verify the results
-        assertEquals(supplierDtoUnderTest.getAddress(), address);
+        assertEquals(supplierRequestUnderTest.getAddress(), address);
     }
 
     @Test
@@ -73,10 +74,10 @@ class SupplierDtoTest {
         final int vatNum = 0;
 
         // Run the test
-        supplierDtoUnderTest.setVatNum(vatNum);
+        supplierRequestUnderTest.setVatNum(vatNum);
 
         // Verify the results
-        assertEquals(supplierDtoUnderTest.getVatNum(), vatNum);
+        assertEquals(supplierRequestUnderTest.getVatNum(), vatNum);
 
     }
 }

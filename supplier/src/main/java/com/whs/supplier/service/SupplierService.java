@@ -1,15 +1,16 @@
 package com.whs.supplier.service;
 
-import com.mongodb.MongoSocketWriteException;
 import com.mongodb.MongoWriteConcernException;
-import com.mongodb.MongoWriteException;
-import com.mongodb.ServerAddress;
-import com.whs.supplier.api.dto.SupplierDto;
+import com.whs.supplier.api.dto.errors.DuplicateRequestException;
+import com.whs.supplier.api.dto.errors.NotFoundException;
+import com.whs.supplier.api.dto.request.SupplierRequest;
+import com.whs.supplier.api.dto.response.SupplierResponse;
 import com.whs.supplier.infrastructure.model.Supplier;
 import com.whs.supplier.infrastructure.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +28,12 @@ public class SupplierService {
         return supplierRepository.findAll();
     }
 
-    public Supplier saveSupplier(SupplierDto dto){
+    public SupplierResponse saveSupplier(SupplierRequest dto){
         log.info("Inserting new supplier" + dto.getName() + "in the database.");
         try {
-            return supplierRepository.save(dto.dtoToSupplier());
-        } catch (MongoWriteConcernException e){
-            throw e;
+            return SupplierResponse.supplierToDto(supplierRepository.insert(dto.dtoToSupplier()));
+        } catch (Exception ex){
+            throw new DuplicateRequestException(ex.getMessage());
         }
     }
 
@@ -54,14 +55,24 @@ public class SupplierService {
         }
     }
 
-    public Supplier updateSupplier(SupplierDto dto, String id){
-        log.info("Updating supplier: " + dto.getName() + "from the database.");
+    public SupplierResponse updateSupplier(SupplierRequest dto, String id){
+        log.info("Updating supplier: " + dto.getName() + "in the database.");
         try {
             Supplier supplier = dto.dtoToSupplier();
             supplier.setId(id);
-            return supplierRepository.save(supplier);
+            return SupplierResponse.supplierToDto(supplierRepository.save(supplier));
         } catch (MongoWriteConcernException e){
             throw e;
+        }
+    }
+
+    public SupplierResponse findSupplier(String id){
+        log.info("Finding supplier: " + id + "in the database.");
+        try {
+            Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+            return SupplierResponse.supplierToDto(supplier);
+        } catch (NullPointerException e){
+            return null;
         }
     }
 }
