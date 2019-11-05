@@ -2,7 +2,6 @@ package com.whs.supplier.api.dto;
 
 import com.whs.supplier.infrastructure.model.Supplier;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 @Getter
 @Setter
@@ -11,7 +10,6 @@ import org.springframework.data.annotation.Id;
 @Builder
 public class SupplierDto {
 
-    @Id
     private String id;
     private String name;
     private String address;

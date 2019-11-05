@@ -11,7 +11,6 @@ import org.springframework.data.annotation.Id;
 @Builder
 public class SupplierResponseDto {
 
-    @Id
     private String id;
     private String name;
     private String address;

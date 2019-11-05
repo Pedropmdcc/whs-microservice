@@ -11,9 +11,18 @@ import java.util.List;
 public interface SupplierController {
 
     @RequestMapping("/suppliers")
-    List<Supplier> list();
+    List<Supplier> listSuppliers();
 
     @PutMapping("/newSupplier")
-    ResponseEntity<Void> insert(@RequestBody SupplierDto dto);
+    ResponseEntity<Void> saveSupplier(@RequestBody SupplierDto dto);
+
+    @DeleteMapping("/cleanSuppliers")
+    ResponseEntity<Void> cleanSuppliers();
+
+    @DeleteMapping("/deleteSupplier/{id}")
+    ResponseEntity<Void> deleteSupplier(@PathVariable String id);
+
+    @PatchMapping("/updateSupplier/{id}")
+    ResponseEntity<Void> updateSupplier(@RequestBody SupplierDto dto, @PathVariable String id);
 
 }

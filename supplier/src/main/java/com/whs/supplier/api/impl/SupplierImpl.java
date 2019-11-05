@@ -30,22 +30,32 @@ public class SupplierImpl implements SupplierController {
 
     private final SupplierService supplierService;
 
-//    @Override
-//    public String getAll() {
-//        return String.format(
-//                "Warehousetwo '%s'!", eurekaClient.getApplication(appName).getName());
-//    }
-
     @Override
-    public List<Supplier> list() {
-        return supplierService.list();
+    public List<Supplier> listSuppliers() {
+        return supplierService.listSuppliers();
     }
 
     @Override
-    public ResponseEntity<Void> insert(SupplierDto dto) {
-        supplierService.insert(dto);
+    public ResponseEntity<Void> saveSupplier(SupplierDto dto) {
+        supplierService.saveSupplier(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @Override
+    public ResponseEntity<Void> cleanSuppliers(){
+        supplierService.cleanSuppliers();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @Override
+    public ResponseEntity<Void> deleteSupplier(String id){
+        supplierService.deleteSupplier(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateSupplier(SupplierDto dto, String id){
+        supplierService.updateSupplier(dto, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
