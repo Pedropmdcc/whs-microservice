@@ -38,14 +38,16 @@ public class MaterialImpl implements MaterialController {
     private String appName;
 
     private final MaterialService materialService;
+    private final String CREATE = "newmaterial";
+    private final String DELETE = "deletematerial";
+    private final String UPDATE = "updatematerial";
 
     @Override
-    public ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder) {
-        materialService.add(materialRequest);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/newmaterial/{id}").buildAndExpand(materialRequest.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    public Resource<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder) {
+        MaterialResponse materialResponse = materialService.add(materialRequest);
+        Link link = linkTo(methodOn(MaterialController.class).add(materialRequest,builder)).withSelfRel();
+        Resource<MaterialResponse> result = new Resource<>(materialResponse, link);
+        return result;
     }
 
     @Override
@@ -64,20 +66,26 @@ public class MaterialImpl implements MaterialController {
     }
 
     @Override
-    public ResponseEntity<MaterialResponse> getById(String id) {
+    public Resource<MaterialResponse> getById(String id) {
         MaterialResponse materialResponse = materialService.getById(id);
-        return new ResponseEntity<>(materialResponse, HttpStatus.ACCEPTED);
+        Link link = linkTo(methodOn(MaterialController.class).getById(id)).withSelfRel();
+        Resource<MaterialResponse> result = new Resource<>(materialResponse, link);
+        return result;
     }
 
     @Override
-    public ResponseEntity<Void> delete(String id) {
-        materialService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public Resource<MaterialResponse> delete(String id) {
+        MaterialResponse materialResponse = materialService.delete(id);
+        Link link = linkTo(methodOn(MaterialController.class).delete(id)).withRel(DELETE);
+        Resource<MaterialResponse> result = new Resource<>(materialResponse, link);
+        return result;
     }
 
     @Override
-    public ResponseEntity<MaterialResponse> update(MaterialRequest materialRequest, String id) {
-        materialService.update(materialRequest, id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public Resource<MaterialResponse> update(MaterialRequest materialRequest, String id) {
+        MaterialResponse materialResponse = materialService.update(materialRequest, id);
+        Link link = linkTo(methodOn(MaterialController.class).update(materialRequest, id)).withRel(UPDATE);
+        Resource<MaterialResponse> result = new Resource<>(materialResponse, link);
+        return result;
     }
 }

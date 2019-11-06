@@ -46,9 +46,10 @@ public class MaterialService {
         return MaterialResponse.materialToResponse(material);
     }
 
-    public void delete(String id) {
+    public MaterialResponse delete(String id) {
         Material material = materialRepository.findById(id).orElseThrow(() -> new DeleteBadRequestException(id));
         materialRepository.delete(material);
+        return MaterialResponse.materialToResponse(material);
     }
 
     public MaterialResponse update(MaterialRequest materialRequest, String id) {

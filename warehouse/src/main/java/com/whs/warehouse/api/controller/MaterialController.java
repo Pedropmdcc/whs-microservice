@@ -2,6 +2,7 @@ package com.whs.warehouse.api.controller;
 
 import com.whs.warehouse.api.dto.request.MaterialRequest;
 import com.whs.warehouse.api.dto.response.MaterialResponse;
+import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,17 +14,17 @@ import java.util.List;
 public interface MaterialController {
 
     @PostMapping("newmaterial")
-    ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder);
+    Resource<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder);
 
     @GetMapping("material")
     Resources<MaterialResponse> getAll();
 
     @GetMapping("material/{id}")
-    ResponseEntity<MaterialResponse> getById(@PathVariable("id") String id);
+    Resource<MaterialResponse> getById(@PathVariable("id") String id);
 
     @DeleteMapping("deletematerial/{id}")
-    ResponseEntity<Void> delete(@PathVariable("id") String id);
+    Resource<MaterialResponse> delete(@PathVariable("id") String id);
 
     @PutMapping("updatematerial/{id}")
-    ResponseEntity<MaterialResponse> update(@RequestBody MaterialRequest materialRequest, @PathVariable("id") String id);
+    Resource<MaterialResponse> update(@RequestBody MaterialRequest materialRequest, @PathVariable("id") String id);
 }
