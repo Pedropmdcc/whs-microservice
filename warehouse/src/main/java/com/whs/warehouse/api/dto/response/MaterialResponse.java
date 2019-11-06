@@ -19,11 +19,11 @@ public class MaterialResponse extends ResourceSupport {
     private String name;
     private String description;
     private Double weight;
-    private ContainerStatus container; // enum
+    private ContainerStatus container;
     private Boolean stackable;
-    private FlagStatus flag; // enum
+    private FlagStatus flag;
     private Integer minimumStock;
-    private String idSupplier; //UUID
+    private String idSupplier;
 
     public static MaterialResponse materialToResponse(Material material) {
         return MaterialResponse.builder()

@@ -5,21 +5,23 @@ import com.whs.warehouse.domain.data.FlagStatus;
 import com.whs.warehouse.domain.model.Material;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MaterialRequest {
+public class MaterialRequest implements Serializable {
     private String id;
     private String name;
     private String description;
     private Double weight;
-    private ContainerStatus container; // enum
+    private ContainerStatus container;
     private Boolean stackable;
-    private FlagStatus flag; // enum
+    private FlagStatus flag;
     private Integer minimumStock;
-    private String idSupplier; //UUID
+    private String idSupplier;
 
     public Material requestToMaterial() {
         return Material.builder()

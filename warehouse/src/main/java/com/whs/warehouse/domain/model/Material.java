@@ -24,9 +24,6 @@ public class Material {
     private Boolean stackable;
     private FlagStatus flag;
     private Integer minimumStock;
-    private String idSupplier; //UUID
+    private String idSupplier;
 
-    private String getResponseId() {
-        return id;
-    }
 }
