@@ -29,11 +29,22 @@ public class SupplierService {
     }
 
     public SupplierResponse saveSupplier(SupplierRequest dto){
-        log.info("Inserting new supplier" + dto.getName() + "in the database.");
+        log.info("Inserting new supplier" + dto.getName() + " in the database.");
         try {
             return SupplierResponse.supplierToDto(supplierRepository.insert(dto.dtoToSupplier()));
         } catch (Exception ex){
             throw new DuplicateRequestException(ex.getMessage());
+        }
+    }
+
+    public SupplierResponse updateSupplier(SupplierRequest dto, String id){
+        log.info("Updating supplier: " + dto.getName() + " in the database.");
+        try {
+            Supplier supplier = dto.dtoToSupplier();
+            supplier.setId(id);
+            return SupplierResponse.supplierToDto(supplierRepository.save(supplier));
+        } catch (MongoWriteConcernException e){
+            throw e;
         }
     }
 
@@ -47,7 +58,7 @@ public class SupplierService {
     }
 
     public void deleteSupplier(String id){
-        log.info("Deleting supplier with id: " + id + "from the database.");
+        log.info("Deleting supplier with id: " + id + " from the database.");
         try {
             supplierRepository.deleteById(id);
         } catch (MongoWriteConcernException e){
@@ -55,19 +66,8 @@ public class SupplierService {
         }
     }
 
-    public SupplierResponse updateSupplier(SupplierRequest dto, String id){
-        log.info("Updating supplier: " + dto.getName() + "in the database.");
-        try {
-            Supplier supplier = dto.dtoToSupplier();
-            supplier.setId(id);
-            return SupplierResponse.supplierToDto(supplierRepository.save(supplier));
-        } catch (MongoWriteConcernException e){
-            throw e;
-        }
-    }
-
     public SupplierResponse findSupplier(String id){
-        log.info("Finding supplier: " + id + "in the database.");
+        log.info("Finding supplier: " + id + " in the database.");
         try {
             Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
             return SupplierResponse.supplierToDto(supplier);

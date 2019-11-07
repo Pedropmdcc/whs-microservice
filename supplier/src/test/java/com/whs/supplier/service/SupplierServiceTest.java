@@ -48,7 +48,7 @@ class SupplierServiceTest {
         // Setup
         final SupplierRequest dto = new SupplierRequest("id", "name", "address", 0);
         final Supplier supplier = new Supplier("id", "name", "address", 0);
-        Mockito.when(mockSupplierRepository.save(supplier)).thenReturn(supplier);
+        Mockito.when(mockSupplierRepository.insert(Mockito.any(Supplier.class))).thenReturn(supplier);
 
         // Run the test
         SupplierResponse result = supplierServiceUnderTest.saveSupplier(dto);
