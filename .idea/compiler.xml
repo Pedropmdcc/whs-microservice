@@ -8,10 +8,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="service-registry" />
         <module name="gateway" />
-        <module name="customer" />
         <module name="registry" />
-        <module name="orders" />
+        <module name="customer" />
         <module name="warehouse" />
+        <module name="orders" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
