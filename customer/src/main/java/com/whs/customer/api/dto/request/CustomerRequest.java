@@ -3,10 +3,7 @@ package com.whs.customer.api.dto.request;
 import com.whs.customer.domain.data.Region;
 import com.whs.customer.domain.data.TransportZone;
 import com.whs.customer.infrastructure.model.Customer;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,6 +16,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomerRequest implements Serializable {
     @NotBlank(message = "No name provided")
     private String name;
