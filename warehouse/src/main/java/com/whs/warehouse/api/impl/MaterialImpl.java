@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,16 +29,15 @@ public class MaterialImpl implements MaterialController {
     private final MaterialService materialService;
 
     @Override
-    public Resource<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder) {
+    public ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder) {
         MaterialResponse materialResponse = materialService.add(materialRequest);
         Link link = linkTo(methodOn(MaterialController.class).add(materialRequest,builder)).withSelfRel();
         materialResponse.add(link);
-        Resource<MaterialResponse> result = new Resource<>(materialResponse, link);
-        return result;
+        return new ResponseEntity<>(materialResponse, HttpStatus.CREATED);
     }
 
     @Override
-    public Resources<MaterialResponse> getAll() {
+    public ResponseEntity<List<MaterialResponse>>getAll() {
         List<MaterialResponse> materialList = materialService.getAll();
 
         for(final MaterialResponse materialResponse : materialList) {
@@ -45,35 +46,30 @@ public class MaterialImpl implements MaterialController {
             materialResponse.add(selfLink);
         }
 
-        Link link = linkTo(methodOn(MaterialController.class).getAll()).withSelfRel();
-        Resources<MaterialResponse> result = new Resources<>(materialList, link);
-        return result;
+        return new ResponseEntity<>(materialList, HttpStatus.OK);
     }
 
     @Override
-    public Resource<MaterialResponse> getById(String id) {
+    public ResponseEntity<MaterialResponse> getById(String id) {
         MaterialResponse materialResponse = materialService.getById(id);
         Link link = linkTo(methodOn(MaterialController.class).getById(id)).withSelfRel();
         materialResponse.add(link);
-        Resource<MaterialResponse> result = new Resource<>(materialResponse, link);
-        return result;
+        return new ResponseEntity<>(materialResponse, HttpStatus.ACCEPTED);
     }
 
     @Override
-    public Resource<MaterialResponse> delete(String id) {
+    public ResponseEntity<MaterialResponse> delete(String id) {
         MaterialResponse materialResponse = materialService.delete(id);
         Link link = linkTo(methodOn(MaterialController.class).delete(id)).withSelfRel();
         materialResponse.add(link);
-        Resource<MaterialResponse> result = new Resource<>(materialResponse, link);
-        return result;
+        return new ResponseEntity<>(materialResponse, HttpStatus.NO_CONTENT);
     }
 
     @Override
-    public Resource<MaterialResponse> update(MaterialRequest materialRequest, String id) {
+    public ResponseEntity<MaterialResponse> update(MaterialRequest materialRequest, String id) {
         MaterialResponse materialResponse = materialService.update(materialRequest, id);
         Link link = linkTo(methodOn(MaterialController.class).update(materialRequest, id)).withSelfRel();
         materialResponse.add(link);
-        Resource<MaterialResponse> result = new Resource<>(materialResponse, link);
-        return result;
+        return new ResponseEntity<>(materialResponse, HttpStatus.OK);
     }
 }
