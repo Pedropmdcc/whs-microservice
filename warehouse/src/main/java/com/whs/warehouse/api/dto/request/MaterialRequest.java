@@ -6,6 +6,7 @@ import com.whs.warehouse.domain.model.Material;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -19,9 +20,9 @@ public class MaterialRequest implements Serializable {
     private Double weight;
     private ContainerStatus container;
     private Boolean stackable;
-    private FlagStatus flag;
     private Integer minimumStock;
     private String idSupplier;
+    private ArrayList<FlagStatus> flag = new ArrayList<>();
 
     public Material requestToMaterial() {
         return Material.builder()

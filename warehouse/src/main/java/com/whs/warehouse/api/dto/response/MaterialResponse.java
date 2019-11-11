@@ -8,6 +8,8 @@ import lombok.*;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class MaterialResponse extends ResourceSupport {
     private Double weight;
     private ContainerStatus container;
     private Boolean stackable;
-    private FlagStatus flag;
+    private ArrayList<FlagStatus> flag;
     private Integer minimumStock;
     private String idSupplier;
 

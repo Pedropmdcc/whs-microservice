@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+
 @Document(collection = "Material")
 @Getter
 @Setter
@@ -22,7 +24,7 @@ public class Material {
     private Double weight;
     private ContainerStatus container;
     private Boolean stackable;
-    private FlagStatus flag;
+    private ArrayList<FlagStatus> flag;
     private Integer minimumStock;
     private String idSupplier;
 
