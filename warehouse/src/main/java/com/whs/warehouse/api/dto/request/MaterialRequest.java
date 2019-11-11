@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class MaterialRequest implements Serializable {
     private Boolean stackable;
     private Integer minimumStock;
     private String idSupplier;
-    private ArrayList<FlagStatus> flag = new ArrayList<>();
+    private List<FlagStatus> flag = new ArrayList<>();
 
     public Material requestToMaterial() {
         return Material.builder()

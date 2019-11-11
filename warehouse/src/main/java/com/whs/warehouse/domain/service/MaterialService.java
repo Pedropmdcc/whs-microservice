@@ -25,7 +25,8 @@ public class MaterialService {
     public MaterialResponse add(MaterialRequest materialRequest) {
         log.info("Creating new material.");
         try {
-            return MaterialResponse.materialToResponse(materialRepository.insert(materialRequest.requestToMaterial()));
+            materialRepository.insert(materialRequest.requestToMaterial());
+            return MaterialResponse.materialToResponse(materialRequest.requestToMaterial());
         } catch (Exception ex) {
             throw new DuplicateRequestException(ex.getMessage());
         }

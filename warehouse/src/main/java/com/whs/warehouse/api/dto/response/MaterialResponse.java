@@ -9,6 +9,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,7 +24,7 @@ public class MaterialResponse extends ResourceSupport {
     private Double weight;
     private ContainerStatus container;
     private Boolean stackable;
-    private ArrayList<FlagStatus> flag;
+    private List<FlagStatus> flag;
     private Integer minimumStock;
     private String idSupplier;
 

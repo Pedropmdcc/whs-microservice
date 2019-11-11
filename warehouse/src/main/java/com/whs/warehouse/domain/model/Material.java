@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "Material")
 @Getter
@@ -24,7 +25,7 @@ public class Material {
     private Double weight;
     private ContainerStatus container;
     private Boolean stackable;
-    private ArrayList<FlagStatus> flag;
+    private List<FlagStatus> flag;
     private Integer minimumStock;
     private String idSupplier;
 

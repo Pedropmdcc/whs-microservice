@@ -2,22 +2,26 @@ package com.whs.warehouse.util;
 
 import com.whs.warehouse.api.dto.request.MaterialRequest;
 import com.whs.warehouse.domain.data.ContainerStatus;
+import com.whs.warehouse.domain.data.FlagStatus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MaterialTestDataProvider {
 
     public static MaterialRequest getMaterialRequest(){
-
-        final MaterialRequest materialRequest = new MaterialRequest();
-
-        materialRequest.setId("100");
-        materialRequest.setName("testOne");
-        materialRequest.setDescription("DescriptionTestOne");
-        materialRequest.setWeight(4.3);
-        materialRequest.setContainer(ContainerStatus.box);
-        materialRequest.setStackable(true);
-        materialRequest.setMinimumStock(10);
-        materialRequest.setIdSupplier("150");
-
-        return materialRequest;
+        final List<FlagStatus> flagList = new ArrayList<>();
+        flagList.add(FlagStatus.poisonous);
+        flagList.add(FlagStatus.hazardous);
+        return MaterialRequest.builder()
+                .id("100")
+                .name("testOne")
+                .description("DescriptionTestOne")
+                .weight(4.3)
+                .container(ContainerStatus.box)
+                .stackable(true)
+                .flag(flagList)
+                .idSupplier("150")
+                .build();
     }
 }

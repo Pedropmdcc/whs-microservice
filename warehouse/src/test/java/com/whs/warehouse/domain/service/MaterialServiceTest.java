@@ -2,21 +2,17 @@ package com.whs.warehouse.domain.service;
 
 import com.whs.warehouse.api.dto.request.MaterialRequest;
 import com.whs.warehouse.api.dto.response.MaterialResponse;
-import com.whs.warehouse.domain.model.Material;
 import com.whs.warehouse.infrastructure.repository.MaterialRepository;
 import com.whs.warehouse.util.MaterialTestDataProvider;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class MaterialServiceTest {
-
+class MaterialServiceTest {
 
     @Mock
     private MaterialRepository materialRepository;
@@ -25,45 +21,43 @@ public class MaterialServiceTest {
     private MaterialService materialService;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
+
         MockitoAnnotations.initMocks(this);
     }
 
-
     @Test
-    public void add() {
+    void add() {
 
         //Given
         final MaterialRequest materialRequest = MaterialTestDataProvider.getMaterialRequest();
-        final MaterialResponse materialResponse = new MaterialResponse();
-        final String materialRequestName = materialRequest.getName();
+        final MaterialResponse materialResponse = materialService.add(materialRequest);
+/*
 
         //When
-        when(materialRepository.insert(any(Material.class))).thenReturn(materialRequest.requestToMaterial());
-        //final MaterialResponse materialResponse = materialService.add(materialRequest);
-
+        final String materialRequestName = materialRequest.getName();
+        final String materialResponseName = materialResponse.getName();
+*/
 
         //Then
-        assertEquals(materialRequest.getName(), materialResponse.getId());
-
-        assertEquals(materialRequest.getId(), "materialResponse.getResponseId()");
+        assertEquals(materialRequest.getName(), materialResponse.getName());
+        assertEquals(materialRequest.getId(), materialResponse.getResponseId());
         assertEquals(materialRequest.getContainer(), materialResponse.getContainer());
-
     }
 
     @Test
-    public void getAll() {
+    void getAll() {
     }
 
     @Test
-    public void getById() {
+    void getById() {
     }
 
     @Test
-    public void delete() {
+    void delete() {
     }
 
     @Test
-    public void update() {
+    void update() {
     }
 }
