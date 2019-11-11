@@ -9,9 +9,9 @@
         <module name="service-registry" />
         <module name="gateway" />
         <module name="registry" />
-        <module name="warehouse" />
         <module name="orders" />
         <module name="supplier" />
+        <module name="warehouse" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

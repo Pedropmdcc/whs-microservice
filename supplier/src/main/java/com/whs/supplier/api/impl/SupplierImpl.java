@@ -12,10 +12,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 
 @SpringBootApplication
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -32,36 +38,39 @@ public class SupplierImpl implements SupplierController {
     private final SupplierService supplierService;
 
     @Override
-    public List<Supplier> listSuppliers() {
+    public ResponseEntity<List<Supplier>> listSuppliers() {
         return supplierService.listSuppliers();
     }
 
     @Override
-    public ResponseEntity<Void> saveSupplier(SupplierRequest dto) {
-        supplierService.saveSupplier(dto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<SupplierResponse> saveSupplier(SupplierRequest supplierRequest, UriComponentsBuilder builder) {
+        SupplierResponse supplierResponse = supplierService.saveSupplier(supplierRequest);
+        Link link = linkTo(methodOn(SupplierController.class).saveSupplier(supplierRequest, builder)).withSelfRel();
+        supplierResponse.add(link);
+        return new ResponseEntity<>(supplierResponse, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Void> cleanSuppliers(){
-        supplierService.cleanSuppliers();
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<SupplierResponse> deleteSupplier(String id){
+        SupplierResponse supplierResponse = supplierService.deleteSupplier(id);
+        Link link = linkTo(methodOn(SupplierController.class).deleteSupplier(id)).withSelfRel();
+        supplierResponse.add(link);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
-    public ResponseEntity<Void> deleteSupplier(String id){
-        supplierService.deleteSupplier(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Void> updateSupplier(SupplierRequest dto, String id){
-        supplierService.updateSupplier(dto, id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<SupplierResponse> updateSupplier(SupplierRequest supplierRequest, String id){
+        SupplierResponse supplierResponse = supplierService.updateSupplier(supplierRequest, id);
+        Link link = linkTo(methodOn(SupplierController.class).updateSupplier(supplierRequest, id)).withSelfRel();
+        supplierResponse.add(link);
+        return new ResponseEntity<>(supplierResponse, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<SupplierResponse> findSupplier(String id){
-        return new ResponseEntity<>(supplierService.findSupplier(id), HttpStatus.OK);
+        SupplierResponse supplierResponse = supplierService.findSupplier(id);
+        Link link = linkTo(methodOn(SupplierController.class).findSupplier(id)).withSelfRel();
+        supplierResponse.add(link);
+        return new ResponseEntity<>(supplierResponse, HttpStatus.ACCEPTED);
     }
 }

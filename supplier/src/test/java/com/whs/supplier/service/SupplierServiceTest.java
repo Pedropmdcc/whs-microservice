@@ -58,17 +58,6 @@ class SupplierServiceTest {
     }
 
     @Test
-    void testCleanSuppliers() {
-        // Setup
-
-        // Run the test
-        supplierServiceUnderTest.cleanSuppliers();
-
-        // Verify the results
-        assertTrue(true);
-    }
-
-    @Test
     void testDeleteSupplier() {
         // Setup
         final String id = "id";
@@ -85,6 +74,8 @@ class SupplierServiceTest {
         // Setup
         final SupplierRequest dto = new SupplierRequest("id", "name", "address", 0);
         final String id = "id";
+        final Supplier supplier = new Supplier("id", "name", "address", 0);
+        Mockito.when(mockSupplierRepository.save(Mockito.any(Supplier.class))).thenReturn(supplier);
 
         // Run the test
         supplierServiceUnderTest.updateSupplier(dto, id);

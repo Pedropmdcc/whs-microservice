@@ -1,6 +1,7 @@
 package com.whs.supplier.service;
 
 import com.mongodb.MongoWriteConcernException;
+import com.whs.supplier.api.dto.errors.DeleteBadRequestException;
 import com.whs.supplier.api.dto.errors.DuplicateRequestException;
 import com.whs.supplier.api.dto.errors.NotFoundException;
 import com.whs.supplier.api.dto.request.SupplierRequest;
@@ -10,7 +11,6 @@ import com.whs.supplier.infrastructure.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,24 +43,17 @@ public class SupplierService {
             Supplier supplier = dto.dtoToSupplier();
             supplier.setId(id);
             return SupplierResponse.supplierToDto(supplierRepository.save(supplier));
-        } catch (MongoWriteConcernException e){
-            throw e;
+        } catch (Exception ex){
+            throw new DuplicateRequestException(ex.getMessage());
         }
     }
 
-    public void cleanSuppliers(){
-        log.info("Cleaning repository");
-        try {
-            supplierRepository.deleteAll();
-        } catch (MongoWriteConcernException e){
-            throw e;
-        }
-    }
-
-    public void deleteSupplier(String id){
+    public SupplierResponse deleteSupplier(String id){
         log.info("Deleting supplier with id: " + id + " from the database.");
         try {
-            supplierRepository.deleteById(id);
+            Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new DeleteBadRequestException(id));
+            supplierRepository.delete(supplier);
+            return SupplierResponse.supplierToDto(supplier);
         } catch (MongoWriteConcernException e){
             throw e;
         }

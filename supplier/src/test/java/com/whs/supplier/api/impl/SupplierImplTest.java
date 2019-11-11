@@ -54,18 +54,6 @@ class SupplierImplTest {
     }
 
     @Test
-    void testCleanSuppliers() {
-        // Setup
-        final ResponseEntity<Void> expectedResult = new ResponseEntity<>(HttpStatus.OK);
-
-        // Run the test
-        final ResponseEntity<Void> result = supplierImplUnderTest.cleanSuppliers();
-
-        // Verify the results
-        assertEquals(expectedResult, result);
-    }
-
-    @Test
     void testDeleteSupplier() {
         // Setup
         final String id = "id";
