@@ -46,7 +46,7 @@ public class CustomerService {
     public ResponseEntity<CustomerResponse> save(CustomerRequest customer) {
         LOGGER.info("Creating new customer: " + customer.getName() + " in the database");
         try {
-            customerRepository.save(customer.convertToModel());
+            customerRepository.insert(customer.convertToModel());
             return new ResponseEntity<>(CustomerResponse.convertToResponse(customer.convertToModel()), HttpStatus.CREATED);
         }
         catch (Exception ex) {

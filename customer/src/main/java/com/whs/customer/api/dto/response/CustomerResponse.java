@@ -1,6 +1,7 @@
 package com.whs.customer.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.whs.customer.domain.data.Region;
 import com.whs.customer.domain.data.TransportZone;
 import com.whs.customer.infrastructure.model.Customer;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class CustomerResponse extends ResourceSupport {
     private String address;
     private TransportZone transportZone;
     private String vat;
+    private Region region;
 
     public static CustomerResponse convertToResponse(Customer customer){
         return CustomerResponse.builder()
@@ -28,6 +30,7 @@ public class CustomerResponse extends ResourceSupport {
                 .name(customer.getName())
                 .transportZone(customer.getTransportZone())
                 .vat(customer.getVat())
+                .region(customer.getRegion())
                 .build();
     }
 
