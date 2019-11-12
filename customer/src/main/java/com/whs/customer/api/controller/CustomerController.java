@@ -11,6 +11,7 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping(value = "/customer")
 public interface CustomerController {
 
     /**
@@ -18,7 +19,7 @@ public interface CustomerController {
      * @param customer Customer object with data.
      * @return  Response with HTTP Status.
      */
-    @PostMapping("/create")
+    @PostMapping
     ResponseEntity<CustomerResponse> save(@RequestBody CustomerRequest customer, UriComponentsBuilder builder);
 
     /**
@@ -33,7 +34,7 @@ public interface CustomerController {
      * Returns all Customers.
      * @return Response with a List of all Customers.
      */
-    @GetMapping("/all")
+    @GetMapping
     ResponseEntity<List<CustomerResponse>> getAll();
 
     /**

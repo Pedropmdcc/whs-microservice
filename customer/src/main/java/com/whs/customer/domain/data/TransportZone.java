@@ -38,18 +38,4 @@ public enum TransportZone {
                 .map(TransportZone::getZone)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-//
-//    public static TransportZone setTransportZone(Customer customer) {
-//        region = customer.getRegion().toString();
-//
-//        if (region == "vianaDoCastelo" || region == "braga" || region == "porto" || region == "vilaReal" || region == "braganca")
-//            return TransportZone.North;
-//
-//        if (region == "aveiro" || region =="viseu" || region =="guarda" || region == "coimbra" || region == "casteloBranco" || region == "leiria" || region == "santarem" || region == "lisboa")
-//            return TransportZone.Central;
-//
-//        else
-//            return TransportZone.South;
-//    }
-
 }
