@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,10 +24,11 @@ public class SupplierService {
     @Autowired
     private final SupplierRepository supplierRepository;
 
-    public List<Supplier> listSuppliers() {
+    public List<SupplierResponse> listSuppliers() {
         log.info("Listing all courses");
-        return supplierRepository.findAll();
-    }
+        List<SupplierResponse> supplierResponseList = new ArrayList<>();
+        supplierRepository.findAll().forEach(supplier -> supplierResponseList.add(SupplierResponse.supplierToDto(supplier)));
+        return supplierResponseList;    }
 
     public SupplierResponse saveSupplier(SupplierRequest dto){
         log.info("Inserting new supplier" + dto.getName() + " in the database.");
@@ -50,22 +52,14 @@ public class SupplierService {
 
     public SupplierResponse deleteSupplier(String id){
         log.info("Deleting supplier with id: " + id + " from the database.");
-        try {
-            Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new DeleteBadRequestException(id));
-            supplierRepository.delete(supplier);
-            return SupplierResponse.supplierToDto(supplier);
-        } catch (MongoWriteConcernException e){
-            throw e;
-        }
+        Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new DeleteBadRequestException(id));
+        supplierRepository.delete(supplier);
+        return SupplierResponse.supplierToDto(supplier);
     }
 
-    public SupplierResponse findSupplier(String id){
+    public SupplierResponse findSupplier(String id) {
         log.info("Finding supplier: " + id + " in the database.");
-        try {
-            Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
-            return SupplierResponse.supplierToDto(supplier);
-        } catch (NullPointerException e){
-            return null;
-        }
+        Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return SupplierResponse.supplierToDto(supplier);
     }
 }

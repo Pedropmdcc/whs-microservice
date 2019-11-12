@@ -38,8 +38,15 @@ public class SupplierImpl implements SupplierController {
     private final SupplierService supplierService;
 
     @Override
-    public ResponseEntity<List<Supplier>> listSuppliers() {
-        return supplierService.listSuppliers();
+    public ResponseEntity<List<SupplierResponse>> listSuppliers() {
+            List<SupplierResponse> supplierList = supplierService.listSuppliers();
+
+            for(final SupplierResponse supplierResponse : supplierList) {
+                String supplierResponseId = supplierResponse.getResponseId();
+                Link selfLink = linkTo(methodOn(SupplierController.class).findSupplier(supplierResponseId)).withSelfRel();
+                supplierResponse.add(selfLink);
+            }
+            return new ResponseEntity<>(supplierList, HttpStatus.OK);
     }
 
     @Override
@@ -55,7 +62,7 @@ public class SupplierImpl implements SupplierController {
         SupplierResponse supplierResponse = supplierService.deleteSupplier(id);
         Link link = linkTo(methodOn(SupplierController.class).deleteSupplier(id)).withSelfRel();
         supplierResponse.add(link);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(supplierResponse, HttpStatus.NO_CONTENT);
     }
 
     @Override
