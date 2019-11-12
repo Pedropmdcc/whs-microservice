@@ -19,7 +19,7 @@ public class MaterialTestDataProvider {
                 .name("testOne")
                 .description("DescriptionTestOne")
                 .weight(4.3)
-                .container(ContainerStatus.box)
+                .container(ContainerStatus.drum)
                 .stackable(true)
                 .flag(flagList)
                 .idSupplier("150")

@@ -1,5 +1,6 @@
 package com.whs.warehouse.domain.service;
 
+import com.mongodb.MongoWriteConcernException;
 import com.whs.warehouse.api.dto.errors.DeleteBadRequestException;
 import com.whs.warehouse.api.dto.errors.DuplicateRequestException;
 import com.whs.warehouse.api.dto.errors.NotFoundException;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +27,10 @@ public class MaterialService {
     public MaterialResponse add(MaterialRequest materialRequest) {
         log.info("Creating new material.");
         try {
-            materialRepository.insert(materialRequest.requestToMaterial());
-            return MaterialResponse.materialToResponse(materialRequest.requestToMaterial());
+            MaterialResponse materialResponse = MaterialResponse.materialToResponse(materialRepository
+                    .save(materialRequest
+                            .requestToMaterial()));
+            return materialResponse;
         } catch (Exception ex) {
             throw new DuplicateRequestException(ex.getMessage());
         }
@@ -34,9 +38,13 @@ public class MaterialService {
 
     public List<MaterialResponse> getAll() {
         log.info("Getting all materials.");
+        try{
         List<MaterialResponse> materialResponseList = new ArrayList<>();
-        materialRepository.findAll().forEach(e -> materialResponseList.add(MaterialResponse.materialToResponse(e)));
+        materialRepository.findAll().forEach(m -> materialResponseList.add(MaterialResponse.materialToResponse(m)));
         return materialResponseList;
+        } catch (MongoWriteConcernException ex){
+            throw ex;
+        }
     }
 
     public MaterialResponse getById(String id) {
@@ -52,6 +60,7 @@ public class MaterialService {
         return MaterialResponse.materialToResponse(material);
     }
 
+    @Transactional
     public MaterialResponse update(MaterialRequest materialRequest, String id) {
         log.info("Updating material with the id: " + id);
         materialRepository.findById(id).orElseThrow(() -> new NotFoundException(id));

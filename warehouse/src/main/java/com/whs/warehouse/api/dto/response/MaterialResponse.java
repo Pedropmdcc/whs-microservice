@@ -8,7 +8,6 @@ import lombok.*;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

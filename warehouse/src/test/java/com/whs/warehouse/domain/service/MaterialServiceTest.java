@@ -2,6 +2,7 @@ package com.whs.warehouse.domain.service;
 
 import com.whs.warehouse.api.dto.request.MaterialRequest;
 import com.whs.warehouse.api.dto.response.MaterialResponse;
+import com.whs.warehouse.domain.data.ContainerStatus;
 import com.whs.warehouse.domain.model.Material;
 import com.whs.warehouse.infrastructure.repository.MaterialRepository;
 import com.whs.warehouse.util.MaterialTestDataProvider;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class MaterialServiceTest {
@@ -38,6 +40,11 @@ class MaterialServiceTest {
 
         //Given
         final MaterialRequest materialRequest = MaterialTestDataProvider.getMaterialRequest();
+        final Material material = new Material();
+        material.setName(materialRequest.getName());
+
+        //When
+        when(materialRepository.save(any(Material.class))).thenReturn(materialRequest.requestToMaterial());
         final MaterialResponse materialResponse = materialService.add(materialRequest);
 
         //Then
@@ -51,8 +58,12 @@ class MaterialServiceTest {
 
         //Given
         final MaterialRequest materialRequest = MaterialTestDataProvider.getMaterialRequest();
+        final Material material = new Material();
+        material.setName("WrongName");
+
+        //When
+        when(materialRepository.save(any(Material.class))).thenReturn(material);
         final MaterialResponse materialResponse = materialService.add(materialRequest);
-        materialResponse.setName("other name");
 
         //Then
         Assertions.assertNotEquals(materialRequest.getName(), materialResponse.getName());
@@ -85,8 +96,6 @@ class MaterialServiceTest {
         material.setName(materialRequest.getName());
         material.setId(materialRequest.getId());
         final MaterialResponse materialResponse = MaterialResponse.materialToResponse(material);
-        System.out.println(materialResponse.getResponseId());
-        System.out.println(materialResponse.getName());
 
         //When
         when(materialRepository.findById(material.getId())).thenReturn(Optional.of(material));
@@ -116,5 +125,22 @@ class MaterialServiceTest {
 
     @Test
     void update() {
+
+        final Material material = MaterialTestDataProvider.getMaterial();
+        final MaterialRequest materialRequest = new MaterialRequest();
+        materialRequest.setId(material.getId());
+        materialRequest.setName("TestUpdate");
+        materialRequest.setContainer(ContainerStatus.drum);
+
+        //When
+        when(materialRepository.findById(material.getId())).thenReturn(Optional.of(material));
+        when(materialRepository.save(any())).thenReturn(materialRequest.requestToMaterial());
+
+        final MaterialResponse materialResponse = materialService.update(materialRequest, materialRequest.getId());
+
+        //Then
+        assertEquals(materialRequest.getName(), materialResponse.getName());
+        assertEquals(materialRequest.getContainer(), materialResponse.getContainer());
+
     }
 }
