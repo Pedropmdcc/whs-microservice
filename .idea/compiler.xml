@@ -8,16 +8,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="service-registry" />
         <module name="gateway" />
-        <module name="registry" />
         <module name="customer" />
+        <module name="registry" />
+        <module name="favorite" />
         <module name="warehouse" />
-        <module name="orders" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="customer" target="1.8" />
+      <module name="favorite" target="1.8" />
       <module name="gateway" target="1.8" />
-      <module name="orders" target="1.8" />
       <module name="registry" target="1.8" />
       <module name="service-registry" target="1.8" />
       <module name="warehouse" target="1.8" />
@@ -26,8 +26,8 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="customer" options="-parameters" />
+      <module name="favorite" options="-parameters" />
       <module name="gateway" options="-parameters" />
-      <module name="orders" options="-parameters" />
       <module name="registry" options="-parameters" />
       <module name="service-registry" options="-parameters" />
       <module name="warehouse" options="-parameters" />
