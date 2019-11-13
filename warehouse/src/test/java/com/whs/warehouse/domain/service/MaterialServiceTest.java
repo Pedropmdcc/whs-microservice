@@ -6,7 +6,6 @@ import com.whs.warehouse.domain.data.ContainerStatus;
 import com.whs.warehouse.domain.model.Material;
 import com.whs.warehouse.infrastructure.repository.MaterialRepository;
 import com.whs.warehouse.util.MaterialTestDataProvider;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class MaterialServiceTest {
+public class MaterialServiceTest {
 
     @Mock
     private MaterialRepository materialRepository;
@@ -66,7 +65,7 @@ class MaterialServiceTest {
         final MaterialResponse materialResponse = materialService.add(materialRequest);
 
         //Then
-        Assertions.assertNotEquals(materialRequest.getName(), materialResponse.getName());
+        assertNotEquals(materialRequest.getName(), materialResponse.getName());
     }
 
     @Test

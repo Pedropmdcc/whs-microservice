@@ -9,12 +9,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/material")
 public interface MaterialController {
 
     @PostMapping
-    ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder);
+    ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest);
 
     @GetMapping
     ResponseEntity<List<MaterialResponse>> getAll();

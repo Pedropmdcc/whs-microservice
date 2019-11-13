@@ -25,9 +25,9 @@ public class MaterialImpl implements MaterialController {
     private final MaterialService materialService;
 
     @Override
-    public ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest, UriComponentsBuilder builder) {
+    public ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest) {
         MaterialResponse materialResponse = materialService.add(materialRequest);
-        Link link = linkTo(methodOn(MaterialController.class).add(materialRequest,builder)).withSelfRel();
+        Link link = linkTo(methodOn(MaterialController.class).add(materialRequest)).withSelfRel();
         materialResponse.add(link);
         return new ResponseEntity<>(materialResponse, HttpStatus.CREATED);
     }
