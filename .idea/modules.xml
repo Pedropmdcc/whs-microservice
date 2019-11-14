@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/registry/registry.iml" filepath="$PROJECT_DIR$/registry/registry.iml" />
       <module fileurl="file://$PROJECT_DIR$/supplier/supplier.iml" filepath="$PROJECT_DIR$/supplier/supplier.iml" />
       <module fileurl="file://$PROJECT_DIR$/warehouse/warehouse.iml" filepath="$PROJECT_DIR$/warehouse/warehouse.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../whs-app/whs-app.iml" filepath="$PROJECT_DIR$/../whs-app/whs-app.iml" />
     </modules>
   </component>
 </project>

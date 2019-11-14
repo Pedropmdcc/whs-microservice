@@ -1,5 +1,6 @@
 package com.whs.customer.infrastructure.model;
 
+import com.whs.customer.domain.data.Region;
 import com.whs.customer.domain.data.TransportZone;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -17,6 +18,7 @@ public class Customer {
     private String name;
     private String address;
     private TransportZone transportZone;
+    private Region region;
     @Indexed(unique=true)
     private String vat;
 }

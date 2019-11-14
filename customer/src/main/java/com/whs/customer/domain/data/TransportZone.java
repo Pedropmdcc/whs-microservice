@@ -1,5 +1,7 @@
 package com.whs.customer.domain.data;
 
+import com.whs.customer.infrastructure.model.Customer;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,5 +38,4 @@ public enum TransportZone {
                 .map(TransportZone::getZone)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-
 }
