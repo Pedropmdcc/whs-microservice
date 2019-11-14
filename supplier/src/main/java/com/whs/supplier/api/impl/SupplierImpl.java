@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 
-@SpringBootApplication
+@Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SupplierImpl implements SupplierController {
 
