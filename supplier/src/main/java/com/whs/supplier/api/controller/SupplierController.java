@@ -8,7 +8,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/suppliers")
 public interface SupplierController {
