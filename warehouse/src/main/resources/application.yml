@@ -13,7 +13,7 @@ spring:
     name: warehouse-client
   data:
     mongodb:
-      database: test
+      database: material
       port: 27017
       host: localhost
   rabbitmq:
