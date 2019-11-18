@@ -15,7 +15,7 @@ import java.util.List;
 public interface MaterialController {
 
     @PostMapping
-    ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest);
+    ResponseEntity<MaterialResponse> save(@RequestBody MaterialRequest materialRequest);
 
     @GetMapping
     ResponseEntity<List<MaterialResponse>> getAll();

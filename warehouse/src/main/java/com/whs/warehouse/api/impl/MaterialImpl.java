@@ -25,47 +25,32 @@ public class MaterialImpl implements MaterialController {
     private final MaterialService materialService;
 
     @Override
-    public ResponseEntity<MaterialResponse> add(@RequestBody MaterialRequest materialRequest) {
-        MaterialResponse materialResponse = materialService.add(materialRequest);
-        Link link = linkTo(methodOn(MaterialController.class).add(materialRequest)).withSelfRel();
-        materialResponse.add(link);
+    public ResponseEntity<MaterialResponse> save(@RequestBody MaterialRequest materialRequest) {
+        MaterialResponse materialResponse = materialService.save(materialRequest);
         return new ResponseEntity<>(materialResponse, HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<List<MaterialResponse>>getAll() {
         List<MaterialResponse> materialList = materialService.getAll();
-
-        for(final MaterialResponse materialResponse : materialList) {
-            String materialResponseId = materialResponse.getResponseId();
-            Link selfLink = linkTo(methodOn(MaterialController.class).getById(materialResponseId)).withSelfRel();
-            materialResponse.add(selfLink);
-        }
-
         return new ResponseEntity<>(materialList, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<MaterialResponse> getById(String id) {
         MaterialResponse materialResponse = materialService.getById(id);
-        Link link = linkTo(methodOn(MaterialController.class).getById(id)).withSelfRel();
-        materialResponse.add(link);
         return new ResponseEntity<>(materialResponse, HttpStatus.ACCEPTED);
     }
 
     @Override
     public ResponseEntity<MaterialResponse> delete(String id) {
         MaterialResponse materialResponse = materialService.delete(id);
-        Link link = linkTo(methodOn(MaterialController.class).delete(id)).withSelfRel();
-        materialResponse.add(link);
         return new ResponseEntity<>(materialResponse, HttpStatus.NO_CONTENT);
     }
 
     @Override
     public ResponseEntity<MaterialResponse> update(MaterialRequest materialRequest, String id) {
         MaterialResponse materialResponse = materialService.update(materialRequest, id);
-        Link link = linkTo(methodOn(MaterialController.class).update(materialRequest, id)).withSelfRel();
-        materialResponse.add(link);
         return new ResponseEntity<>(materialResponse, HttpStatus.OK);
     }
 }
