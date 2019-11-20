@@ -5,6 +5,7 @@ import com.whs.warehouse.api.controller.MaterialController;
 import com.whs.warehouse.api.dto.errors.DeleteBadRequestException;
 import com.whs.warehouse.api.dto.errors.DuplicateRequestException;
 import com.whs.warehouse.api.dto.errors.NotFoundException;
+import com.whs.warehouse.api.dto.errors.WeightLimitsException;
 import com.whs.warehouse.api.dto.request.MaterialRequest;
 import com.whs.warehouse.api.dto.response.MaterialResponse;
 import com.whs.warehouse.domain.model.Material;
@@ -34,17 +35,12 @@ public class MaterialService {
     public MaterialResponse save(MaterialRequest materialRequest) {
         log.info("Creating new material.");
         try {
-            if(materialRequest.getWeight() >= MINIMUM && materialRequest.getWeight() <= MAXIMUM) {
-                Link link = linkTo(methodOn(MaterialController.class).save(materialRequest)).withSelfRel();
-                MaterialResponse materialResponse = MaterialResponse.materialToResponse(
-                        materialRepository.save(materialRequest.requestToMaterial()));
-                materialResponse.add(link);
-                return materialResponse;
-            } else {
-                throw new DuplicateRequestException("Invalid weight");
-            }
+            return saveConfirm(materialRequest);
+
         } catch (DuplicateRequestException ex) {
+
             throw new DuplicateRequestException(ex.getMessage());
+
         }
     }
 
@@ -99,6 +95,18 @@ public class MaterialService {
         Link link = linkTo(methodOn(MaterialController.class).update(materialRequest, id)).withSelfRel();
         materialResponse.add(link);
         return materialResponse;
+    }
+
+    private MaterialResponse saveConfirm(MaterialRequest materialRequest) {
+        if (materialRequest.getWeight() >= MINIMUM && materialRequest.getWeight() <= MAXIMUM) {
+            Link link = linkTo(methodOn(MaterialController.class).save(materialRequest)).withSelfRel();
+            MaterialResponse materialResponse = MaterialResponse.materialToResponse(
+                    materialRepository.save(materialRequest.requestToMaterial()));
+            materialResponse.add(link);
+            return materialResponse;
+        } else {
+            throw new WeightLimitsException(materialRequest.getId());
+        }
     }
 
 }
