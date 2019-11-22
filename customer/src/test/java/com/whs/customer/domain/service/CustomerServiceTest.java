@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class CustomerServiceTest {
@@ -87,8 +87,21 @@ public class CustomerServiceTest {
 
         assertEquals(customerResponse.getName(),customerServiceMock.findByName(customer.getName()).getBody().getName());
         assertEquals(customerResponse.getVat(),customerServiceMock.findByName(customer.getName()).getBody().getVat());
-
     }
 
+    @Test
+    void deleteByName(){
+
+        final Customer customer = CustomerTestDataProvider.getCustomer();
+        final ResponseEntity<CustomerResponse> expectedResult = new ResponseEntity<>
+                (CustomerResponse.convertToResponse(customer), HttpStatus.ACCEPTED);
+
+        when(customerRepositoryMock.findByName(customer.getName())).thenReturn(Optional.of(customer));
+
+        doNothing().when(customerRepositoryMock).delete(customer);
+        final ResponseEntity<CustomerResponse> result = customerServiceMock.delete(customer.getName());
+
+        assertEquals(expectedResult, result);
+    }
 
 }
