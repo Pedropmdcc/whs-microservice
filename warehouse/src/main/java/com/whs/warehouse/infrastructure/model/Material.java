@@ -1,4 +1,4 @@
-package com.whs.warehouse.domain.model;
+package com.whs.warehouse.infrastructure.model;
 
 import com.whs.warehouse.domain.data.ContainerStatus;
 import com.whs.warehouse.domain.data.FlagStatus;
@@ -7,9 +7,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that represents an Material.
+ */
 @Document(collection = "Material")
 @Getter
 @Setter
@@ -28,5 +30,4 @@ public class Material {
     private List<FlagStatus> flag;
     private Integer minimumStock;
     private String idSupplier;
-
 }

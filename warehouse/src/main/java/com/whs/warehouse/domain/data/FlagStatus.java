@@ -1,5 +1,8 @@
 package com.whs.warehouse.domain.data;
 
+/**
+ * Class enum with available flag
+ */
 public enum FlagStatus {
     hazardous("hazardous"),
     flammable("flammable"),
@@ -12,6 +15,6 @@ public enum FlagStatus {
     }
 
     public String getValue() {
-        return value;
+        return this.value;
     }
 }

@@ -1,5 +1,8 @@
 package com.whs.warehouse.domain.data;
 
+/**
+ * Class enum with available containers
+ */
 public enum ContainerStatus {
     bag("bag"),
     drum("drum"),
@@ -12,6 +15,6 @@ public enum ContainerStatus {
     }
 
     public String getValue() {
-        return value;
+        return this.value;
     }
 }

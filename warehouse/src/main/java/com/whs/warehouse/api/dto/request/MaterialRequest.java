@@ -2,13 +2,16 @@ package com.whs.warehouse.api.dto.request;
 
 import com.whs.warehouse.domain.data.ContainerStatus;
 import com.whs.warehouse.domain.data.FlagStatus;
-import com.whs.warehouse.domain.model.Material;
+import com.whs.warehouse.infrastructure.model.Material;
 import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that represents the Material request.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

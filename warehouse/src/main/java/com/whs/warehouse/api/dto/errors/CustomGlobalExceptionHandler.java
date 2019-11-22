@@ -11,24 +11,32 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> customHandleNotFound(Exception ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse();
+    public ResponseEntity<ErrorResponse> customHandleNotFound(final Exception ex, final WebRequest request) {
+        final ErrorResponse error = new ErrorResponse();
         error.setStatus(HttpStatus.NO_CONTENT.value());
         error.setMessage(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(DuplicateRequestException.class)
-    public ResponseEntity<ErrorResponse> customHandleDuplicated(Exception ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse();
+    public ResponseEntity<ErrorResponse> customHandleDuplicated(final Exception ex, final WebRequest request) {
+        final ErrorResponse error = new ErrorResponse();
         error.setStatus(HttpStatus.CONFLICT.value());
         error.setMessage(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(DeleteBadRequestException.class)
-    public ResponseEntity<ErrorResponse> customHandleDeleteBadRequest(Exception ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse();
+    public ResponseEntity<ErrorResponse> customHandleDeleteBadRequest(final Exception ex, final WebRequest request) {
+        final ErrorResponse error = new ErrorResponse();
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setMessage(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(WeightLimitsException.class)
+    public ResponseEntity<ErrorResponse> customHandleSaveBadRequest(final Exception ex, final WebRequest request) {
+        final ErrorResponse error = new ErrorResponse();
         error.setStatus(HttpStatus.BAD_REQUEST.value());
         error.setMessage(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);

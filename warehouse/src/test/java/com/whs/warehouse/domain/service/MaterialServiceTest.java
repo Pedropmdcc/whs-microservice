@@ -1,9 +1,11 @@
 package com.whs.warehouse.domain.service;
 
+import com.whs.warehouse.api.controller.MaterialController;
+import com.whs.warehouse.api.dto.errors.WeightLimitsException;
 import com.whs.warehouse.api.dto.request.MaterialRequest;
 import com.whs.warehouse.api.dto.response.MaterialResponse;
 import com.whs.warehouse.domain.data.ContainerStatus;
-import com.whs.warehouse.domain.model.Material;
+import com.whs.warehouse.infrastructure.model.Material;
 import com.whs.warehouse.infrastructure.repository.MaterialRepository;
 import com.whs.warehouse.util.MaterialTestDataProvider;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.hateoas.Link;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 public class MaterialServiceTest {
 
@@ -39,17 +44,17 @@ public class MaterialServiceTest {
 
         //Given
         final MaterialRequest materialRequest = MaterialTestDataProvider.getMaterialRequest();
-        final Material material = new Material();
-        material.setName(materialRequest.getName());
+        final Link link = linkTo(methodOn(MaterialController.class).save(materialRequest)).withSelfRel();
 
         //When
-        when(materialRepository.save(any(Material.class))).thenReturn(materialRequest.requestToMaterial());
-        //final MaterialResponse materialResponse = materialService.add(materialRequest);
+        when(this.materialRepository.save(any(Material.class))).thenReturn(materialRequest.requestToMaterial());
+        final MaterialResponse materialResponse = this.materialService.save(materialRequest);
+        materialResponse.add(link);
 
         //Then
-        //assertEquals(materialRequest.getName(), materialResponse.getName());
-        //assertEquals(materialRequest.getId(), materialResponse.getResponseId());
-        //assertEquals(materialRequest.getContainer(), materialResponse.getContainer());
+        assertEquals(materialRequest.getName(), materialResponse.getName());
+        assertEquals(materialRequest.getId(), materialResponse.getResponseId());
+        assertEquals(materialRequest.getContainer(), materialResponse.getContainer());
     }
 
     @Test
@@ -61,12 +66,44 @@ public class MaterialServiceTest {
         material.setName("WrongName");
 
         //When
-        when(materialRepository.save(any(Material.class))).thenReturn(material);
-        //final MaterialResponse materialResponse = materialService.add(materialRequest);
+        when(this.materialRepository.save(any(Material.class))).thenReturn(material);
+        final MaterialResponse materialResponse = this.materialService.save(materialRequest);
 
         //Then
-       // assertNotEquals(materialRequest.getName(), materialResponse.getName());
+        assertNotEquals(materialRequest.getName(), materialResponse.getName());
     }
+
+    @Test
+    void addNotSuccessWeightWrong() {
+
+        //Given
+        final MaterialRequest materialRequest = MaterialTestDataProvider.getMaterialRequestWrongWeight();
+
+        //When
+        when(this.materialRepository.save(any(Material.class))).thenReturn(materialRequest.requestToMaterial());
+
+        //Then
+        assertThrows(WeightLimitsException.class, () -> this.materialService.save(materialRequest));
+    }
+
+    @Test
+    void addNotSuccessDuplicateRequest() {
+        final MaterialRequest materialRequestOne = MaterialTestDataProvider.getMaterialRequest();
+        final Link linkOne = linkTo(methodOn(MaterialController.class).save(materialRequestOne)).withSelfRel();
+
+        final MaterialRequest materialRequestTwo = MaterialTestDataProvider.getMaterialRequest();
+        final Link linkTwo = linkTo(methodOn(MaterialController.class).save(materialRequestTwo)).withSelfRel();
+
+        //When
+        when(this.materialRepository.save(any(Material.class))).thenReturn(materialRequestOne.requestToMaterial());
+        final MaterialResponse materialResponseOne = this.materialService.save(materialRequestOne);
+        materialResponseOne.add(linkOne);
+        final MaterialResponse materialResponseTwo = this.materialService.save(materialRequestTwo);
+        materialResponseTwo.add(linkTwo);
+
+
+    }
+
 
     @Test
     void getAll() {
@@ -77,10 +114,10 @@ public class MaterialServiceTest {
         final List<Material> materialList = new ArrayList<>();
         materialList.add(material);
 
-        when(materialRepository.findAll()).thenReturn(materialList);
+        when(this.materialRepository.findAll()).thenReturn(materialList);
 
         //When
-        final List<MaterialResponse> materialResponseList = materialService.getAll();
+        final List<MaterialResponse> materialResponseList = this.materialService.getAll();
 
         //Then
         assertEquals(material.getName(), materialResponseList.get(0).getName());
@@ -95,13 +132,15 @@ public class MaterialServiceTest {
         material.setName(materialRequest.getName());
         material.setId(materialRequest.getId());
         final MaterialResponse materialResponse = MaterialResponse.materialToResponse(material);
+        final Link link = linkTo(methodOn(MaterialController.class).getById(material.getId())).withSelfRel();
+        materialResponse.add(link);
 
         //When
-        when(materialRepository.findById(material.getId())).thenReturn(Optional.of(material));
+        when(this.materialRepository.findById(material.getId())).thenReturn(Optional.of(material));
 
         //Then
-//        assertEquals(materialResponse, materialService.getById(material.getId()));
-        assertEquals(materialResponse.getResponseId(), materialService.getById(material.getId()).getResponseId());
+        assertEquals(materialResponse, this.materialService.getById(material.getId()));
+        assertEquals(materialResponse.getResponseId(), this.materialService.getById(material.getId()).getResponseId());
     }
 
     @Test
@@ -115,10 +154,11 @@ public class MaterialServiceTest {
         materialList.add(material);
 
         //When
-        when(materialRepository.findById(materialRequest.requestToMaterial().getId())).thenReturn(Optional.of(materialList.get(0)));
+        when(this.materialRepository.findById(materialRequest.requestToMaterial().getId())).thenReturn(Optional.of(materialList.get(0)));
+
 
         //Then
-        //assertEquals(MaterialResponse.materialToResponse(materialList.get(0)), materialService.delete(material.getId()));
+        assertEquals(MaterialResponse.materialToResponse(materialList.get(0)), this.materialService.delete(materialRequest.getId()));
 
     }
 
@@ -132,10 +172,10 @@ public class MaterialServiceTest {
         materialRequest.setContainer(ContainerStatus.drum);
 
         //When
-        when(materialRepository.findById(material.getId())).thenReturn(Optional.of(material));
-        when(materialRepository.save(any())).thenReturn(materialRequest.requestToMaterial());
+        when(this.materialRepository.findById(material.getId())).thenReturn(Optional.of(material));
+        when(this.materialRepository.save(any())).thenReturn(materialRequest.requestToMaterial());
 
-        final MaterialResponse materialResponse = materialService.update(materialRequest, materialRequest.getId());
+        final MaterialResponse materialResponse = this.materialService.update(materialRequest, materialRequest.getId());
 
         //Then
         assertEquals(materialRequest.getName(), materialResponse.getName());
