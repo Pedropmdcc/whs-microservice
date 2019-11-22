@@ -13,6 +13,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -51,4 +55,40 @@ public class CustomerServiceTest {
         final String customerName = customer.getName();
         Assertions.assertNotEquals(customerRequestName,customerName);
     }
+
+    @Test
+    void getAllCustomers(){
+
+        final Customer customer = CustomerTestDataProvider.getCustomer();
+        final List<Customer> customerList = new ArrayList<>();
+        customerList.add(customer);
+
+        when(customerRepositoryMock.findAll()).thenReturn(customerList);
+
+        //when
+        final ResponseEntity<List<CustomerResponse>> customerResponseList = customerServiceMock.getAll();
+
+        //then
+        assertEquals(customer.getName(), customerResponseList.getBody().get(0).getName());
+
+    }
+
+    @Test
+    void getById(){
+
+        final CustomerRequest customerRequest = CustomerTestDataProvider.getCustomerRequestDto();
+        final Customer customer = CustomerTestDataProvider.getCustomer();
+        customer.setName(customerRequest.getName());
+        customer.setVat(customerRequest.getVat());
+
+        final CustomerResponse customerResponse = CustomerResponse.convertToResponse(customer);
+
+        when(customerRepositoryMock.findByName(customer.getName())).thenReturn(Optional.of(customer));
+
+        assertEquals(customerResponse.getName(),customerServiceMock.findByName(customer.getName()).getBody().getName());
+        assertEquals(customerResponse.getVat(),customerServiceMock.findByName(customer.getName()).getBody().getVat());
+
+    }
+
+
 }

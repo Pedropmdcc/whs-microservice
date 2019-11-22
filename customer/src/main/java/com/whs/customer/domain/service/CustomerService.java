@@ -98,4 +98,11 @@ public class CustomerService {
         return new ResponseEntity<>(customerResponseList, HttpStatus.ACCEPTED);
     }
 
+    public ResponseEntity<CustomerResponse> delete(String name){
+        LOGGER.info("Deleting Customer -> " +  name);
+        Customer customer = customerRepository.findByName(name).orElseThrow(() -> new NotFoundException(name));
+        customerRepository.delete(customer);
+        return new ResponseEntity<>(CustomerResponse.convertToResponse(customer), HttpStatus.ACCEPTED);
+    }
+
 }

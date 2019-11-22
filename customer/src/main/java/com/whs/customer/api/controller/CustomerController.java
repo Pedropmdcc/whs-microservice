@@ -9,7 +9,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/customer")
 public interface CustomerController {
@@ -44,4 +44,12 @@ public interface CustomerController {
      */
     @GetMapping("/search/user/{id}")
     ResponseEntity<CustomerResponse> findById(@PathVariable("id") String id);
+
+    /**
+     * Delete Customer.
+     * @param name of the Customer.
+     * @return ResponseEntity with Response Status.
+     */
+    @DeleteMapping("/{name}")
+    ResponseEntity<CustomerResponse> delete(@PathVariable("name") String name);
 }

@@ -6,17 +6,11 @@ import com.whs.customer.api.dto.response.CustomerResponse;
 import com.whs.customer.domain.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.Resources;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.util.List;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -42,5 +36,10 @@ public class CustomerImpl implements CustomerController {
     @Override
     public ResponseEntity<List<CustomerResponse>> getAll(){
         return customerService.getAll();
+    }
+
+    @Override
+    public ResponseEntity<CustomerResponse> delete(String name){
+        return customerService.delete(name);
     }
 }
