@@ -18,7 +18,7 @@ public interface FavoriteController {
      * @return Response with HTTP Status.
      */
     @PostMapping("/save")
-    ResponseEntity<FavoriteResponse> save(@RequestBody FavoriteRequest favorite);
+    ResponseEntity<FavoriteResponse> save(@RequestBody final FavoriteRequest favorite);
 
     /**
      * Returns all Favorites.
@@ -33,7 +33,7 @@ public interface FavoriteController {
      * @return ResponseEntity with Response Status.
      */
     @GetMapping("/search/{id}")
-    ResponseEntity<FavoriteResponse> findById(@PathVariable("id") String id);
+    ResponseEntity<FavoriteResponse> getById(@PathVariable("id") final String id);
 
     /**
      * Delete Favorite from the database
@@ -41,5 +41,5 @@ public interface FavoriteController {
      * @return ResponseEntity with Response Status.
      */
     @DeleteMapping("/delete/{itemId}")
-    ResponseEntity<FavoriteResponse> delete(@PathVariable("itemId") String itemId);
+    ResponseEntity<FavoriteResponse> delete(@PathVariable("itemId") final String itemId);
 }

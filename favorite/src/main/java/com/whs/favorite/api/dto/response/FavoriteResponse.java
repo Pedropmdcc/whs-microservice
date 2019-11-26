@@ -11,7 +11,7 @@ import org.springframework.hateoas.ResourceSupport;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FavoriteResponse {
+public class FavoriteResponse extends ResourceSupport {
     private String id;
     private String itemId;
     private String name;
@@ -26,5 +26,13 @@ public class FavoriteResponse {
                 .iconClass(favorite.getIconClass())
                 .href(favorite.getHref())
                 .build();
+    }
+
+    public Link getId() {
+        return Link.valueOf(this.id) ;
+    }
+
+    public String getResponseId(){
+        return this.id;
     }
 }
