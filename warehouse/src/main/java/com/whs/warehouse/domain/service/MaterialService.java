@@ -1,6 +1,7 @@
 package com.whs.warehouse.domain.service;
 
 import com.mongodb.MongoWriteConcernException;
+import com.mongodb.MongoWriteException;
 import com.whs.warehouse.api.controller.MaterialController;
 import com.whs.warehouse.api.dto.errors.DeleteBadRequestException;
 import com.whs.warehouse.api.dto.errors.DuplicateRequestException;
@@ -32,25 +33,24 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class MaterialService {
 
     private final MaterialRepository materialRepository;
-    private final Double MINIMUM = 10.0;
-    private final Double MAXIMUM = 100.0;
+    private static final Double MINIMUM = 10.0;
+    private static final Double MAXIMUM = 100.0;
 
     /**
      * Saves an {@link Material} to the database.
-     *
      * @param materialRequest the {@link MaterialRequest} to be saved.
      * @return {@link MaterialResponse} that was saved.
      */
     public MaterialResponse save(final MaterialRequest materialRequest) {
         log.info("Creating new material.");
-        try {
+        //try {
             return this.saveConfirm(materialRequest);
 
-        } catch (final DuplicateRequestException ex) {
+        //} catch (final DuplicateRequestException ex) {
 
-            throw new DuplicateRequestException(ex.getMessage());
+            //throw new DuplicateRequestException(ex.getMessage());
 
-        }
+        //}
     }
 
     /**
@@ -74,7 +74,6 @@ public class MaterialService {
 
     /**
      * Get {@link MaterialResponse} from the requested Id.
-     *
      * @param id The material request Id.
      * @return The MaterialResponse.
      */
@@ -89,7 +88,6 @@ public class MaterialService {
 
     /**
      * Delete an {@link Material} to the database.
-     *
      * @param id The material request that will be deleted.
      */
     public MaterialResponse delete(final String id) {
@@ -123,7 +121,7 @@ public class MaterialService {
     }
 
     private MaterialResponse saveConfirm(final MaterialRequest materialRequest) {
-        if (materialRequest.getWeight() >= this.MINIMUM && materialRequest.getWeight() <= this.MAXIMUM) {
+        if (isLessThan(materialRequest.getWeight()) && isGreaterThan(materialRequest.getWeight())) {
             final Link link = linkTo(methodOn(MaterialController.class).save(materialRequest)).withSelfRel();
             final MaterialResponse materialResponse = MaterialResponse.materialToResponse(
                     this.materialRepository.save(materialRequest.requestToMaterial()));
@@ -132,6 +130,15 @@ public class MaterialService {
         } else {
             throw new WeightLimitsException(materialRequest.getId());
         }
+
+
     }
 
+    private boolean isLessThan(Double weight){
+        return MAXIMUM.compareTo(weight) > 0;
+    }
+
+    private boolean isGreaterThan(Double weight){
+        return MINIMUM.compareTo(weight) < 0;
+    }
 }

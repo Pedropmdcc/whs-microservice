@@ -57,4 +57,20 @@ public class MaterialTestDataProvider {
                 .idSupplier("150")
                 .build();
     }
+
+    public static MaterialRequest getMaterialRequestWrongWeightBigger() {
+        final List<FlagStatus> flagList = new ArrayList<>();
+        flagList.add(FlagStatus.poisonous);
+        flagList.add(FlagStatus.hazardous);
+        return MaterialRequest.builder()
+                .id("100")
+                .name("testWrongWeight")
+                .description("DescriptionTestOne")
+                .weight(102.3)
+                .container(ContainerStatus.drum)
+                .stackable(true)
+                .flag(flagList)
+                .idSupplier("150")
+                .build();
+    }
 }

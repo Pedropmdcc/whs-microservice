@@ -1,6 +1,8 @@
 package com.whs.warehouse.domain.service;
 
 import com.whs.warehouse.api.controller.MaterialController;
+import com.whs.warehouse.api.dto.errors.DeleteBadRequestException;
+import com.whs.warehouse.api.dto.errors.NotFoundException;
 import com.whs.warehouse.api.dto.errors.WeightLimitsException;
 import com.whs.warehouse.api.dto.request.MaterialRequest;
 import com.whs.warehouse.api.dto.response.MaterialResponse;
@@ -8,11 +10,14 @@ import com.whs.warehouse.domain.data.ContainerStatus;
 import com.whs.warehouse.infrastructure.model.Material;
 import com.whs.warehouse.infrastructure.repository.MaterialRepository;
 import com.whs.warehouse.util.MaterialTestDataProvider;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import org.springframework.hateoas.Link;
 
 import java.util.ArrayList;
@@ -77,17 +82,30 @@ public class MaterialServiceTest {
     void addNotSuccessWeightWrong() {
 
         //Given
-        final MaterialRequest materialRequest = MaterialTestDataProvider.getMaterialRequestWrongWeight();
+        final MaterialRequest materialRequestOne = MaterialTestDataProvider.getMaterialRequestWrongWeight();
+        final MaterialRequest materialRequestTwo = MaterialTestDataProvider.getMaterialRequestWrongWeightBigger();
 
         //When
-        when(this.materialRepository.save(any(Material.class))).thenReturn(materialRequest.requestToMaterial());
+        when(this.materialRepository.save(any(Material.class))).thenReturn(materialRequestOne.requestToMaterial());
+        when(this.materialRepository.save(any(Material.class))).thenReturn(materialRequestTwo.requestToMaterial());
 
         //Then
-        assertThrows(WeightLimitsException.class, () -> this.materialService.save(materialRequest));
+        assertThrows(WeightLimitsException.class, () -> this.materialService.save(materialRequestOne));
+        assertThrows(WeightLimitsException.class, () -> this.materialService.save(materialRequestTwo));
     }
 
-    @Test
+   /* @Test
     void addNotSuccessDuplicateRequest() {
+
+        final Material materialOne = MaterialTestDataProvider.getMaterial();
+        final Material materialTwo = MaterialTestDataProvider.getMaterial();
+
+        final List<Material> materialList = new ArrayList<>();
+        materialList.add(materialOne);
+        materialList.add(materialTwo);
+
+
+        *//*
         final MaterialRequest materialRequestOne = MaterialTestDataProvider.getMaterialRequest();
         final Link linkOne = linkTo(methodOn(MaterialController.class).save(materialRequestOne)).withSelfRel();
 
@@ -101,9 +119,12 @@ public class MaterialServiceTest {
         final MaterialResponse materialResponseTwo = this.materialService.save(materialRequestTwo);
         materialResponseTwo.add(linkTwo);
 
+         *//*
 
+        //Then
+        //assertThrows(DuplicateRequestException.class, () -> this.materialService.save(materialRequestTwo));
     }
-
+*/
 
     @Test
     void getAll() {
@@ -114,9 +135,8 @@ public class MaterialServiceTest {
         final List<Material> materialList = new ArrayList<>();
         materialList.add(material);
 
-        when(this.materialRepository.findAll()).thenReturn(materialList);
-
         //When
+        when(this.materialRepository.findAll()).thenReturn(materialList);
         final List<MaterialResponse> materialResponseList = this.materialService.getAll();
 
         //Then
@@ -141,6 +161,7 @@ public class MaterialServiceTest {
         //Then
         assertEquals(materialResponse, this.materialService.getById(material.getId()));
         assertEquals(materialResponse.getResponseId(), this.materialService.getById(material.getId()).getResponseId());
+        assertThrows(NotFoundException.class, () -> this.materialService.getById("10"));
     }
 
     @Test
@@ -159,7 +180,7 @@ public class MaterialServiceTest {
 
         //Then
         assertEquals(MaterialResponse.materialToResponse(materialList.get(0)), this.materialService.delete(materialRequest.getId()));
-
+        assertThrows(DeleteBadRequestException.class, () -> this.materialService.delete("10"));
     }
 
     @Test
@@ -180,6 +201,6 @@ public class MaterialServiceTest {
         //Then
         assertEquals(materialRequest.getName(), materialResponse.getName());
         assertEquals(materialRequest.getContainer(), materialResponse.getContainer());
-
+        assertThrows(NotFoundException.class, () -> this.materialService.update(materialRequest,"10"));
     }
 }
