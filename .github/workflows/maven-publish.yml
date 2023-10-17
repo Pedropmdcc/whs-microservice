@@ -11,12 +11,9 @@ on:
         description: Who to greet
         options: 
         - monalisa
-        - cschleiden
+        - monalisa macho
       message:
         required: true
-      use-emoji:
-        type: boolean
-        description: Include 🎉🤣 emojis
       environment:
         type: environment
 jobs:
@@ -26,7 +23,8 @@ jobs:
       contents: read
       packages: write
     steps:
-    - uses: actions/checkout@v3
+    - name: Send greeting
+      run: echo "${{ github.event.inputs.message }} 
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
